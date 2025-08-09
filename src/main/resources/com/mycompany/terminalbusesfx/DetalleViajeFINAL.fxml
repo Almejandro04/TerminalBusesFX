@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="476.0" prefWidth="650.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.terminalbusesfx.DetalleViajeFINALController">
+   <top>
+      <HBox prefHeight="72.0" prefWidth="650.0" spacing="20.0" style="-fx-background-color: #A3C7E4; -fx-padding: 10;" BorderPane.alignment="CENTER_LEFT">
+         <children>
+            <ImageView fitHeight="59.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@BuhoV2.png" />
+               </image>
+            </ImageView>
+            <Label prefHeight="59.0" prefWidth="631.0" text="Gestión Terminales" textFill="#333333">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font></Label>
+            <Button fx:id="btnSalir" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleSalir" prefHeight="59.0" prefWidth="261.0" style="-fx-background-color: #E49A9A; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 5;" text="SALIR" textAlignment="CENTER" />
+         </children>
+      </HBox>
+   </top>
+   <bottom>
+      <HBox prefHeight="44.0" prefWidth="650.0" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="btnNuevo" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleNuevo" prefHeight="30.0" prefWidth="56.0" style="-fx-background-color: #A3C7E4; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 5;" text="Nuevo" textAlignment="CENTER">
+               <padding>
+                  <Insets left="5.0" />
+               </padding></Button>
+            <Button fx:id="btnEditar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleEditar" prefHeight="30.0" prefWidth="56.0" style="-fx-background-color: #A3C7E4; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 5;" text="Editar" textAlignment="CENTER" />
+            <Button fx:id="btnVer" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleVer" prefHeight="30.0" prefWidth="56.0" style="-fx-background-color: #A3C7E4; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 5;" text="Ver" textAlignment="CENTER" />
+            <Button fx:id="btnBorrar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleBorrar" prefHeight="30.0" prefWidth="56.0" style="-fx-background-color: #A3C7E4; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 5;" text="Borrar" textAlignment="CENTER" />
+         </children>
+         <padding>
+            <Insets left="7.0" top="5.0" />
+         </padding>
+      </HBox>
+   </bottom>
+   <center>
+      <TabPane fx:id="tabPane" prefHeight="299.0" prefWidth="600.0" style="-fx-background-color: #F0F8FF; -fx-border-color: #A3C7E4; -fx-border-width: 1;" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab fx:id="tabTerminales" text="Terminales">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                           <center>
+                              <TableView fx:id="tblTerminales" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #A3C7E4; -fx-border-width: 1;" BorderPane.alignment="CENTER">
+                                 <columns>
+                                    <TableColumn fx:id="colcodTerminal" prefWidth="101.5999710559845" text="Código" />
+                                    <TableColumn fx:id="colTerminalCiudad" prefWidth="79.99999237060547" text="Ciudad" />
+                                    <TableColumn fx:id="colTerminalNombre" prefWidth="78.39999389648438" text="Nombre" />
+                                    <TableColumn fx:id="colTerminalDireccion" prefWidth="83.20001220703125" text="Direccioń" />
+                                 </columns>
+                                 <BorderPane.margin>
+                                    <Insets />
+                                 </BorderPane.margin>
+                              </TableView>
+                           </center>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab fx:id="tabViajes" text="Viajes">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <BorderPane layoutX="214.0" layoutY="18.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                           <left>
+                              <VBox fx:id="boxFiltros" prefHeight="274.0" prefWidth="128.0" style="-fx-background-color: #F0F8FF; -fx-border-color: #A3C7E4; -fx-border-width: 1; -fx-background-radius: 10; -fx-padding: 10;" BorderPane.alignment="CENTER">
+                                 <children>
+                                    <Label style="-fx-text-fill: #333333; -fx-font-weight: bold;" text="Fecha Desde:" />
+                                    <DatePicker fx:id="dpFechaDesde" />
+                                    <Label style="-fx-text-fill: #333333; -fx-font-weight: bold;" text="Fecha Hasta:" />
+                                    <DatePicker fx:id="dpFechaHasta" />
+                                    <Label style="-fx-text-fill: #333333; -fx-font-weight: bold;" text="Origen: " />
+                                    <ComboBox fx:id="cbOrigen" prefWidth="150.0" />
+                                    <Label style="-fx-text-fill: #333333; -fx-font-weight: bold;" text="Destino:" />
+                                    <ComboBox fx:id="cbDestino" prefWidth="150.0" />
+                                    <Button fx:id="btnBuscar" mnemonicParsing="false" onAction="#handleBuscar" prefHeight="30.0" prefWidth="131.0" text="Buscar" />
+                                 </children>
+                              </VBox>
+                           </left>
+                           <center>
+                              <TableView fx:id="tblViajes" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #A3C7E4; -fx-border-width: 1;" BorderPane.alignment="CENTER">
+                                <columns>
+                                  <TableColumn fx:id="colcodViaje" prefWidth="75.0" text="Código" />
+                                  <TableColumn fx:id="colConductor" prefWidth="75.0" text="Conductor" />
+                                  <TableColumn fx:id="colVehiculo" prefWidth="75.0" text="Vehiculo" />
+                                    <TableColumn fx:id="ColTerminal" prefWidth="75.0" text="Terminal" />
+                                    <TableColumn fx:id="colFecha" prefWidth="75.0" text="Fecha" />
+                                    <TableColumn fx:id="colHora" prefWidth="75.0" text="Hora" />
+                                    <TableColumn fx:id="colCiudadDestino" prefWidth="75.0" text="Destino" />
+                                    <TableColumn fx:id="colPrecio" prefWidth="75.0" text="Precio" />
+                                </columns>
+                              </TableView>
+                           </center>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab fx:id="tabConductores1" text="Rutas">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                           <center>
+                              <TableView fx:id="tblConductores1" style="-fx-border-color: #A3C7E4; -fx-border-width: 1;" BorderPane.alignment="CENTER">
+                                 <columns>
+                                    <TableColumn fx:id="colcodConductor1" prefWidth="75.0" text="Código" />
+                                    <TableColumn fx:id="colTerminalConductor1" prefWidth="75.0" text="Cod_Terminal" />
+                                    <TableColumn fx:id="colNombreConductor1" prefWidth="75.0" text="Destino" />
+                                    <TableColumn fx:id="colApellidoConductor1" prefWidth="75.0" text="Precio" />
+                                 </columns>
+                                 <BorderPane.margin>
+                                    <Insets />
+                                 </BorderPane.margin>
+                              </TableView>
+                           </center>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="tabVehiculos1" text="Boletos">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                           <center>
+                              <TableView fx:id="tblVehiculo1" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #A3C7E4; -fx-border-width: 1;" BorderPane.alignment="CENTER">
+                                 <columns>
+                                    <TableColumn fx:id="colPlacaVehiculo1" prefWidth="60.80004119873047" text="Cod_Viaje" />
+                                    <TableColumn fx:id="colTerminalVehiculo1" prefWidth="75.0" text="Cédula" />
+                                    <TableColumn fx:id="colCapacidadVehiculo1" prefWidth="89.5999755859375" text="# Asiento" />
+                                 </columns>
+                              </TableView>
+                           </center>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="tabVehiculos" text="Buses">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                           <center>
+                              <TableView fx:id="tblVehiculo" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #A3C7E4; -fx-border-width: 1;" BorderPane.alignment="CENTER">
+                                 <columns>
+                                    <TableColumn fx:id="colPlacaVehiculo" prefWidth="60.80004119873047" text="Placa" />
+                                    <TableColumn fx:id="colTerminalVehiculo" prefWidth="75.0" text="Cod_Terminal" />
+                                    <TableColumn fx:id="colCapacidadVehiculo" prefWidth="89.5999755859375" text="Capacidad" />
+                                 </columns>
+                              </TableView>
+                           </center>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="tabConductores" text="Conductores">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                           <center>
+                              <TableView fx:id="tblConductores" style="-fx-border-color: #A3C7E4; -fx-border-width: 1;" BorderPane.alignment="CENTER">
+                                 <columns>
+                                    <TableColumn fx:id="colcodConductor" prefWidth="75.0" text="Código" />
+                                    <TableColumn fx:id="colTerminalConductor" prefWidth="75.0" text="Cod_Terminal" />
+                                    <TableColumn fx:id="colNombreConductor" prefWidth="75.0" text="Nombre" />
+                                    <TableColumn fx:id="colApellidoConductor" prefWidth="75.0" text="Apellido" />
+                                    <TableColumn fx:id="colLicenciaConductor" prefWidth="75.0" text="Licencia" />
+                                 </columns>
+                                 <BorderPane.margin>
+                                    <Insets />
+                                 </BorderPane.margin>
+                              </TableView>
+                           </center>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="tabPasajeros" text="Pasajeros">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                           <center>
+                              <TableView fx:id="tblPasajeros" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #A3C7E4; -fx-border-width: 1;" BorderPane.alignment="CENTER">
+                                 <columns>
+                                    <TableColumn fx:id="colPasCedula" prefWidth="75.0" text="Cédula" />
+                                    <TableColumn fx:id="colPasNombre" prefWidth="75.0" text="Nombre" />
+                                    <TableColumn fx:id="colPasApellido" prefWidth="75.0" text="Apellido" />
+                                    <TableColumn fx:id="colPasTelefono" prefWidth="75.0" text="Teléfono" />
+                                    <TableColumn fx:id="colPasCorreo" prefWidth="75.0" text="Correo" />
+                                 </columns>
+                                 <BorderPane.margin>
+                                    <Insets />
+                                 </BorderPane.margin>
+                              </TableView>
+                           </center>
+                        </BorderPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </center>
+</BorderPane>
