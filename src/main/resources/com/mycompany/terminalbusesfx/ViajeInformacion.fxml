@@ -34,10 +34,9 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Origen:">
+            <Label text="Terminal:">
                <font>
                   <Font name="System Bold Italic" size="12.0" />
                </font>
@@ -62,14 +61,9 @@
                   <Font name="System Bold Italic" size="12.0" />
                </font>
             </Label>
-            <Label text="Vehículo:" GridPane.rowIndex="5">
+            <Label text="Bus:" GridPane.rowIndex="5">
                <font>
                   <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <Label text="Compañía:" GridPane.rowIndex="6">
-               <font>
-                  <Font name="System Bold Italic" size="12.0" />
                </font>
             </Label>
             <Label fx:id="lblOrigen" text="Label" GridPane.columnIndex="1" />
@@ -77,8 +71,7 @@
             <Label fx:id="lblFechaHora" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label fx:id="lblPrecio" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <Label fx:id="lblConductor" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <Label fx:id="lblVehiculo" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <Label fx:id="lblCompania" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <Label fx:id="lblBus" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
          </children>
       </GridPane>
       <Label text="Pasajeros">
@@ -88,8 +81,6 @@
       </Label>
       <TableView fx:id="tblPasajeros" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: #A3C6E2; -fx-border-radius: 5; -fx-background-radius: 5;">
         <columns>
-            <TableColumn fx:id="colPasCodigo" prefWidth="75.0" text="Codigo" />
-            <TableColumn fx:id="colViajePasajero" prefWidth="75.0" text="Viaje" />
           <TableColumn fx:id="colPasCedula" prefWidth="75.0" text="Cedúla" />
           <TableColumn fx:id="colPasNombre" prefWidth="75.0" text="Nombre" />
             <TableColumn fx:id="colPasApellido" prefWidth="75.0" text="Apellido" />

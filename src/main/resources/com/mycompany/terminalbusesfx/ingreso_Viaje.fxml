@@ -19,7 +19,7 @@
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
    </padding>
    <children>
-      <Label text="Editar Viaje">
+      <Label text="Nuevo Viaje">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
@@ -34,53 +34,60 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Conductor:">
+            <Label text="Conductor:" GridPane.rowIndex="1">
                <font>
                   <Font name="System Bold Italic" size="12.0" />
                </font>
             </Label>
-            <Label text="Vehículo:" GridPane.rowIndex="1">
+            <Label text="Bus:" GridPane.rowIndex="2">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label text="Destino:" GridPane.rowIndex="2">
+            <Label text="Destino:" GridPane.rowIndex="3">
                <font>
                   <Font name="System Bold Italic" size="12.0" />
                </font>
             </Label>
-            <Label text="Fecha del Viaje:" GridPane.rowIndex="3">
+            <Label text="Fecha del Viaje:" GridPane.rowIndex="4">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label text="Hora del Viaje:" GridPane.rowIndex="4">
+            <Label text="Hora del Viaje:" GridPane.rowIndex="5">
                <font>
                   <Font name="System Bold Italic" size="12.0" />
                </font>
             </Label>
-            <Label text="Precio:" GridPane.rowIndex="5">
+            <Label text="Precio:" GridPane.rowIndex="6">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label text="..." GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label text="..." GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <ComboBox fx:id="cbConductor" prefHeight="26.0" prefWidth="276.0" GridPane.columnIndex="1" />
-            <ComboBox fx:id="cbVehiculo" prefHeight="26.0" prefWidth="276.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <ComboBox fx:id="cbDestino" prefHeight="26.0" prefWidth="276.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <Label text="..." GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label text="..." GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <ComboBox fx:id="cbConductor" prefHeight="26.0" prefWidth="276.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ComboBox fx:id="cbVehiculo" prefHeight="26.0" prefWidth="276.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <ComboBox fx:id="cbDestino" prefHeight="26.0" prefWidth="276.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                <children>
                   <Spinner fx:id="spHora" />
                   <Spinner fx:id="spMin" />
                </children>
             </HBox>
-            <DatePicker fx:id="dpFechaViaje" prefHeight="26.0" prefWidth="278.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField fx:id="tfPrecio" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <DatePicker fx:id="dpFechaViaje" prefHeight="26.0" prefWidth="278.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="tfPrecio" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <Label text="Código:">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font>
+            </Label>
+            <TextField fx:id="tfCodigo" GridPane.columnIndex="1" />
          </children>
       </GridPane>
       <HBox prefHeight="28.0" prefWidth="579.0">
