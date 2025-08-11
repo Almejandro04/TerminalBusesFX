@@ -14,12 +14,12 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="332.0" prefWidth="600.0" spacing="10.0" style="-fx-background-color: #E6F0FA;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="346.0" prefWidth="600.0" spacing="10.0" style="-fx-background-color: #E6F0FA;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.terminalbusesfx.Ingreso_ViajeController">
    <padding>
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
    </padding>
    <children>
-      <Label text="Nuevo Viaje">
+      <Label text="Editar Viaje">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
@@ -70,26 +70,26 @@
             </Label>
             <Label text="..." GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label text="..." GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <ComboBox prefHeight="26.0" prefWidth="276.0" GridPane.columnIndex="1" />
-            <ComboBox prefHeight="26.0" prefWidth="276.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <ComboBox prefHeight="26.0" prefWidth="276.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <ComboBox fx:id="cbConductor" prefHeight="26.0" prefWidth="276.0" GridPane.columnIndex="1" />
+            <ComboBox fx:id="cbVehiculo" prefHeight="26.0" prefWidth="276.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ComboBox fx:id="cbDestino" prefHeight="26.0" prefWidth="276.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <children>
-                  <Spinner />
-                  <Spinner />
+                  <Spinner fx:id="spHora" />
+                  <Spinner fx:id="spMin" />
                </children>
             </HBox>
-            <DatePicker prefHeight="26.0" prefWidth="278.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <DatePicker fx:id="dpFechaViaje" prefHeight="26.0" prefWidth="278.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="tfPrecio" GridPane.columnIndex="1" GridPane.rowIndex="5" />
          </children>
       </GridPane>
       <HBox prefHeight="28.0" prefWidth="579.0">
          <children>
-            <Button mnemonicParsing="false" style="-fx-background-color: #FFBABA; -fx-text-fill: #2C3E50; -fx-font-weight: bold;" text="Guardar">
+            <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#handleGuardar" style="-fx-background-color: #FFBABA; -fx-text-fill: #2C3E50; -fx-font-weight: bold;" text="Guardar">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin></Button>
-            <Button mnemonicParsing="false" style="-fx-background-color: #FFBABA; -fx-text-fill: #2C3E50; -fx-font-weight: bold;" text="Cancelar">
+            <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#handleCancelar" style="-fx-background-color: #FFBABA; -fx-text-fill: #2C3E50; -fx-font-weight: bold;" text="Cancelar">
                <HBox.margin>
                   <Insets left="5.0" right="5.0" />
                </HBox.margin>
