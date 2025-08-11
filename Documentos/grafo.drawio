@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="9xawf11EgOydYplsZZsw" name="Page-1">
-        <mxGraphModel dx="220" dy="582" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="780" pageHeight="320" math="0" shadow="0">
+        <mxGraphModel dx="304" dy="645" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="780" pageHeight="320" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -10,7 +10,7 @@
                 <mxCell id="4" value="&lt;b&gt;BUS (&lt;/b&gt;&lt;u&gt;placa&lt;/u&gt;, cod_terminal, capacidad&lt;b&gt;)&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="120" y="170" width="230" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="34" style="edgeStyle=none;html=1;entryX=0.261;entryY=0.667;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" target="4">
+                <mxCell id="34" style="edgeStyle=none;html=1;entryX=0.261;entryY=0.667;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" target="4" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="240" y="220" as="sourcePoint"/>
                         <Array as="points">
@@ -20,7 +20,7 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="40" style="edgeStyle=none;html=1;" edge="1" parent="1">
+                <mxCell id="40" style="edgeStyle=none;html=1;" parent="1" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="360" y="220" as="sourcePoint"/>
                         <mxPoint x="270" y="150" as="targetPoint"/>
@@ -33,7 +33,7 @@
                 <mxCell id="5" value="&lt;b&gt;VIAJE (&lt;/b&gt;&lt;u&gt;cod_viaje&lt;/u&gt;, placa, núm_ruta, cod_conductor, fecha_viaje, hora_viaje&lt;b&gt;)&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="120" y="210" width="430" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="37" style="edgeStyle=none;html=1;exitX=0.368;exitY=0.07;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.306;entryY=0.086;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="6" target="3">
+                <mxCell id="37" style="edgeStyle=none;html=1;exitX=0.368;exitY=0.07;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.306;entryY=0.086;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="6" target="3" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="310" y="30" as="targetPoint"/>
                         <Array as="points">
@@ -60,7 +60,7 @@
                 <mxCell id="28" value="&lt;b&gt;BOLETO (&lt;/b&gt;&lt;u style=&quot;&quot;&gt;cod_viaje, cédula&lt;/u&gt;, núm_asiento&lt;span style=&quot;color: rgb(0, 0, 0); text-wrap-mode: wrap;&quot;&gt;)&lt;/span&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="120" y="250" width="250" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="39" style="edgeStyle=none;html=1;startArrow=classic;startFill=1;endArrow=none;endFill=0;" edge="1" parent="1" source="29">
+                <mxCell id="39" style="edgeStyle=none;html=1;startArrow=classic;startFill=1;endArrow=none;endFill=0;" parent="1" source="29" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="290" y="220" as="targetPoint"/>
                         <Array as="points">
@@ -76,15 +76,15 @@
                 <mxCell id="29" value="&lt;b&gt;RUTA (&lt;/b&gt;&lt;u&gt;cod_ruta&lt;/u&gt;, cod_terminal, ciudad_destino, precio&lt;b&gt;)&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="121" y="90" width="320" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="31" style="edgeStyle=none;html=1;entryX=0.332;entryY=-0.06;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="28" target="7">
+                <mxCell id="31" style="edgeStyle=none;html=1;entryX=0.332;entryY=-0.06;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="28" target="7" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="33" style="edgeStyle=none;html=1;entryX=0.209;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" target="5">
+                <mxCell id="33" style="edgeStyle=none;html=1;entryX=0.209;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" target="5" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="210" y="250" as="sourcePoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="35" style="edgeStyle=none;html=1;entryX=0.249;entryY=0.086;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" target="3">
+                <mxCell id="35" style="edgeStyle=none;html=1;entryX=0.249;entryY=0.086;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" target="3" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="240" y="170" as="sourcePoint"/>
                         <Array as="points">
@@ -95,7 +95,7 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="38" style="edgeStyle=none;html=1;entryX=0.266;entryY=0.894;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.381;exitY=0.126;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="29" target="3">
+                <mxCell id="38" style="edgeStyle=none;html=1;entryX=0.266;entryY=0.894;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.381;exitY=0.126;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="29" target="3" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
             </root>

@@ -124,37 +124,55 @@ public class DetalleViajeFINALController implements Initializable {
         colPasCedula.setCellValueFactory(new PropertyValueFactory<>("cedulaPasajero"));
         colPasCorreo.setCellValueFactory(new PropertyValueFactory<>("correoPasajero"));
         
-    }    
+    }
+
     // Botones Generales
     @FXML private Button btnSalir;
     @FXML private Button btnBuscar;
     @FXML private TabPane tabPane;
-    @FXML private Tab tabTerminales, tabViajes, tabVehiculos, tabConductores, tabPasajeros;
+    @FXML private Tab tabTerminales, tabViajes, tabRutas, tabBoletos, tabBuses, tabConductores, tabPasajeros;
     @FXML private Button btnNuevo, btnEditar, btnVer, btnBorrar;
     @FXML private DatePicker   dpFechaDesde;
     @FXML private DatePicker   dpFechaHasta;
     @FXML private ComboBox<String> cbOrigen;
     @FXML private ComboBox<String> cbDestino;
 
-    
-    
-    // Tabla Viajes
-    @FXML private TableView<ViajeVista> tblViajes;
-    @FXML private TableColumn<ViajeVista, Integer> colcodViaje;
-    @FXML private TableColumn<ViajeVista, Integer> colConductor;
-    @FXML private TableColumn<ViajeVista, Integer> colVehiculo;
-    @FXML private TableColumn<ViajeVista, Integer> ColTerminal;       // coincide con fx:id="ColTerminal"
-    @FXML private TableColumn<ViajeVista, LocalDate> colFecha;
-    @FXML private TableColumn<ViajeVista, LocalTime> colHora;
-    @FXML private TableColumn<ViajeVista, String> colCiudadDestino;
-    @FXML private TableColumn<ViajeVista, Double> colPrecio;
-    
     // Tabla Terminal
     @FXML private TableView<TerminalVista> tblTerminales;
     @FXML private TableColumn<TerminalVista, Integer> colcodTerminal;
     @FXML private TableColumn<TerminalVista, String> colTerminalCiudad;
     @FXML private TableColumn<TerminalVista, String> colTerminalNombre;
     @FXML private TableColumn<TerminalVista, String> colTerminalDireccion;
+    
+    // Tabla Viajes
+    @FXML private TableView<ViajeVista> tblViajes;
+    @FXML private TableColumn<ViajeVista, Integer> colcodViaje;
+    @FXML private TableColumn<ViajeVista, Integer> colConductor;
+    @FXML private TableColumn<ViajeVista, Integer> colVehiculo;
+    @FXML private TableColumn<ViajeVista, Integer> ColTerminal;       
+    @FXML private TableColumn<ViajeVista, LocalDate> colFecha;
+    @FXML private TableColumn<ViajeVista, LocalTime> colHora;
+    @FXML private TableColumn<ViajeVista, String> colCiudadDestino;
+    @FXML private TableColumn<ViajeVista, Double> colPrecio;
+    
+    // Tabla Rutas
+    @FXML private TableView<?> tblRutas;
+    @FXML private TableColumn<?, ?> colcodRuta;
+    @FXML private TableColumn<?, ?> colTerminalRuta;
+    @FXML private TableColumn<?, ?> colDestinoRuta;
+    @FXML private TableColumn<?, ?> colDestinoPrecio;
+
+    // Tabla Boletos
+    @FXML private TableView<?> tblBoletos;
+    @FXML private TableColumn<?, ?> colViajeBoleto;
+    @FXML private TableColumn<?, ?> colCedulaBoleto;
+    @FXML private TableColumn<?, ?> colAsientoBoleto;
+
+    // Tabla Vehiculo
+    @FXML private TableView<VehiculoVista> tblBuses;
+    @FXML private TableColumn<VehiculoVista, String> colPlacaBus;
+    @FXML private TableColumn<VehiculoVista, Integer> colTerminalBus;
+    @FXML private TableColumn<VehiculoVista, Integer> colCapacidadBus;
     
     // Tabla Conductor
     @FXML private TableView<ConductorVista> tblConductores;
@@ -164,22 +182,12 @@ public class DetalleViajeFINALController implements Initializable {
     @FXML private TableColumn<ConductorVista, String> colApellidoConductor;
     @FXML private TableColumn<ConductorVista, String> colLicenciaConductor;
     
-    // Tabla Vehiculo
-    @FXML private TableView<VehiculoVista> tblVehiculo;
-    @FXML private TableColumn<VehiculoVista, Integer> colcodVehiculo;
-    @FXML private TableColumn<VehiculoVista, Integer> colTerminalVehiculo;
-    @FXML private TableColumn<VehiculoVista, String> colPlacaVehiculo;
-    @FXML private TableColumn<VehiculoVista, Integer> colCapacidadVehiculo;
-    @FXML private TableColumn<VehiculoVista, String> colCompañiaVehiculo;    
-    
     // Tabla Pasajeros
     @FXML private TableView<PasajeroVista> tblPasajeros;
-    @FXML private TableColumn<PasajeroVista,Integer>   colPasCodigo;
-    @FXML private TableColumn<PasajeroVista,Integer>   colViajePasajero;
+    @FXML private TableColumn<PasajeroVista,Integer>   colPasCedula;
     @FXML private TableColumn<PasajeroVista,String>   colPasNombre;
     @FXML private TableColumn<PasajeroVista,String>   colPasApellido;
     @FXML private TableColumn<PasajeroVista,Integer>   colPasTelefono;
-    @FXML private TableColumn<PasajeroVista,Integer>   colPasCedula;
     @FXML private TableColumn<PasajeroVista,String>   colPasCorreo;
     
     
@@ -208,22 +216,6 @@ public class DetalleViajeFINALController implements Initializable {
     onTabChanged(null, null, tabPane.getSelectionModel().getSelectedItem());
     }
     
-//    public void setViaje(ViajeVista viaje) {
-//        this.viaje = viaje;
-//        mostrarDatosViaje();
-//        cargarTablaPasajeros();
-//    }
-    
-    
-    
-//    @FXML private void handleSalir(ActionEvent event) {
-//        // Opción A: cerrar solo la ventana actual
-//        Stage stage = (Stage) btnSalir.getScene().getWindow();
-//        stage.close();
-//
-//        // Opción B: terminar toda la aplicación
-//        // Platform.exit();
-//    }   
     @FXML private void handleSalir(ActionEvent event) {
     try {
         // 1) Carga el FXML de la pantalla de usuario / login
@@ -259,7 +251,7 @@ public class DetalleViajeFINALController implements Initializable {
     boolean isPasajeros = newTab == tabPasajeros;
     boolean isTerminal = newTab == tabTerminales;
     boolean isConductor = newTab == tabConductores;
-    boolean isVehiculo = newTab == tabVehiculos;
+    boolean isBus = newTab == tabBuses;
 
     btnNuevo.setVisible(isViajes || isPasajeros || isConductor);
     btnEditar.setVisible(isViajes || isPasajeros);
@@ -281,7 +273,7 @@ public class DetalleViajeFINALController implements Initializable {
     
     }
     
-    if (isVehiculo) {
+    if (isBus) {
     
      // 1) Llama al servicio
     VehiculoVistaService service = new VehiculoVistaService();
@@ -560,77 +552,6 @@ private void handleBorrar(ActionEvent e) {
 }
 
 
-
-// @FXML
-// private void handleEditar(ActionEvent e) {
-//     PasajeroVista sel = tblPasajeros.getSelectionModel().getSelectedItem();
-//     if (sel == null) {
-//         new Alert(Alert.AlertType.WARNING,
-//                   "Por favor seleccione un pasajero primero.").showAndWait();
-//         return;
-//     }
-
-//     try {
-//         FXMLLoader loader = new FXMLLoader(
-//             getClass().getResource("editar_pasajero.fxml")
-//         );
-//         Parent editarRoot = loader.load();
-
-//         editar_PasajeroController ctrl = loader.getController();
-//         ctrl.setCiudadUsuario(currentUser);
-//         ctrl.setPasajero(sel);
-
-//         // aquí corregimos:
-//         tabPasajeros.setText("Editar Pasajero");
-//         tabPasajeros.setContent(editarRoot);
-//         tabPane.getSelectionModel().select(tabPasajeros);
-
-//     } catch (IOException ex) {
-//         ex.printStackTrace();
-//         new Alert(Alert.AlertType.ERROR,
-//             "No se pudo cargar el formulario de edición:\n" + ex.getMessage()
-//         ).showAndWait();
-//     }
-// }
-
-// @FXML
-// private void handleEditar(ActionEvent e) {
-//     // 1) Selecciona el pasajero
-//     PasajeroVista sel = tblPasajeros.getSelectionModel().getSelectedItem();
-//     if (sel == null) {
-//         new Alert(Alert.AlertType.WARNING,
-//                   "Por favor seleccione un pasajero primero.").showAndWait();
-//         return;
-//     }
-
-//     try {
-//         // 2) Carga el FXML
-//         FXMLLoader loader = new FXMLLoader(
-//             getClass().getResource("editar_pasajero.fxml")
-//         );
-//         Parent root = loader.load();
-
-//         // 3) Inyecta los datos en el controlador de edición
-//         editar_PasajeroController ctrl = loader.getController();
-//         ctrl.setCiudadUsuario(currentUser);
-//         ctrl.setPasajero(sel);
-
-//         // 4) Crea un nuevo Stage modal
-//         Stage editStage = new Stage();
-//         editStage.setTitle("Editar Pasajero");
-//         editStage.initOwner(tblPasajeros.getScene().getWindow());    // ventana padre
-//         editStage.initModality(Modality.APPLICATION_MODAL);         // bloquea la ventana atrás
-
-//         editStage.setScene(new Scene(root));
-//         editStage.showAndWait();  // espera hasta que se cierre
-
-//     } catch (IOException ex) {
-//         ex.printStackTrace();
-//         new Alert(Alert.AlertType.ERROR,
-//             "No se pudo cargar el formulario de edición:\n" + ex.getMessage()
-//         ).showAndWait();
-//     }
-// }
 @FXML
 private void handleEditar(ActionEvent e) {
     // 0) Averigua qué pestaña está activa

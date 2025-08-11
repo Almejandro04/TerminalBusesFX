@@ -13,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -20,7 +21,13 @@ import javafx.stage.Stage;
 public class editar_PasajeroController implements Initializable {
 
     @FXML private ComboBox<ViajeVista> cbViajePasajero;
-    @FXML private TextField tfNombre, tfApellido, tfTelefono, tfCedula, tfCorreo;
+    @FXML private Button btnGuardar;
+    @FXML private Button btnCancelar;
+    @FXML private TextField tfNombre;
+    @FXML private TextField tfApellido;
+    @FXML private TextField tfTelefono;
+    @FXML private TextField tfCedula, tfCorreo;
+
 
     private String ciudadUsuario;
     private PasajeroVista pasajeroActual;

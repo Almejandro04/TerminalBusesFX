@@ -30,29 +30,36 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Nombre:">
+            <Label text="Nombre:" GridPane.rowIndex="1">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label text="Apellido:" GridPane.rowIndex="1">
+            <Label text="Apellido:" GridPane.rowIndex="2">
                <font>
                   <Font name="System Bold Italic" size="12.0" />
                </font>
             </Label>
-            <Label text="Licencia" GridPane.rowIndex="2">
+            <Label text="Licencia" GridPane.rowIndex="3">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label text="..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label text="..." GridPane.columnIndex="1" />
             <Label text="..." GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField fx:id="tfNombre" GridPane.columnIndex="1" />
-            <TextField fx:id="tfApellido" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="tfLicencia" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label text="..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label text="..." GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="tfNombre" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="tfApellido" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="tfLicencia" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label text="Código:">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <TextField fx:id="tfCodigo" GridPane.columnIndex="1" />
          </children>
       </GridPane>
       <HBox prefHeight="28.0" prefWidth="579.0">

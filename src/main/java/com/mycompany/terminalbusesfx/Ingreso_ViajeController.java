@@ -4,24 +4,25 @@
  */
 package com.mycompany.terminalbusesfx;
 
+import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ResourceBundle;
+
 import com.mycompany.terminalbusesBLL.ConductorVistaService;
 import com.mycompany.terminalbusesBLL.VehiculoVistaService;
 import com.mycompany.terminalbusesBLL.ViajeProcedimientoService;
 import com.mycompany.terminalbusesDAL.ConductorVista;
 import com.mycompany.terminalbusesDAL.VehiculoVista;
 import com.mycompany.terminalbusesDAL.ViajeVista;
-import java.net.URL;
-import java.time.LocalTime;
-import java.time.LocalDate;
 
-import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Spinner;
@@ -40,7 +41,8 @@ public class Ingreso_ViajeController implements Initializable {
     @FXML private ComboBox<VehiculoVista>  cbVehiculo;
     @FXML private ComboBox<String>         cbDestino;
     @FXML private DatePicker               dpFechaViaje;
-    @FXML private Spinner<Integer>       spHora, spMin;
+    @FXML private Spinner<Integer> spHora;
+    @FXML private Spinner<Integer> spMin;
     @FXML private TextField                tfPrecio;
     @FXML private Button                   btnGuardar, btnCancelar;
     

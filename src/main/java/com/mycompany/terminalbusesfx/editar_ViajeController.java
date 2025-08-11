@@ -27,13 +27,15 @@ import javafx.stage.Stage;
 
 public class editar_ViajeController implements Initializable {
 
+    @FXML private TextField                tfCodigo;
     @FXML private ComboBox<ConductorVista> cbConductor;
     @FXML private ComboBox<VehiculoVista>  cbVehiculo;
     @FXML private ComboBox<String>         cbDestino;
     @FXML private DatePicker               dpFechaViaje;
-    @FXML private Spinner<Integer>         spHora, spMin;
+    @FXML private Spinner<Integer>       spHora, spMin;
     @FXML private TextField                tfPrecio;
     @FXML private Button                   btnGuardar, btnCancelar;
+    
 
     private String ciudadUsuario;
     private ViajeVista viajeActual;
