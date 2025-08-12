@@ -285,7 +285,7 @@ public class DetalleViajeFINALController implements Initializable {
 //    // 3) Asigna al TableView
 //    tblVehiculo.setItems(data);
 //    
-    tblVehiculo.setItems(data);
+    tblBuses.setItems(data);
     
     };
     
@@ -293,8 +293,8 @@ public class DetalleViajeFINALController implements Initializable {
     if (isTerminal) {
 
         TerminalVistaService service = new TerminalVistaService();
-        List<TerminalVista> lista = service.obtenerTerminalesPorUsuario(currentUser);
-tblTerminales.setItems(
+        List<TerminalVista> lista = service.obtenerTodosLosTerminales();
+        tblTerminales.setItems(
         FXCollections.observableArrayList(lista)
     );
 

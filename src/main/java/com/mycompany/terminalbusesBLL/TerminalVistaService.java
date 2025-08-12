@@ -5,13 +5,14 @@
 
 package com.mycompany.terminalbusesBLL;
 
+import java.util.List;
+
 /**
  *
  * @author Jorge
  */
 import com.mycompany.terminalbusesDAL.TerminalVista;
 import com.mycompany.terminalbusesDAL.TerminalVistaDAO;
-import java.util.List;
 
 public class TerminalVistaService {
     
@@ -26,8 +27,8 @@ public class TerminalVistaService {
 //        return dao.obtenerTodos();
 //    }
     
-    public List<TerminalVista> obtenerTerminalesPorUsuario(String ciudadUsuario) {
-        return dao.obtenerTodosLosTerminales(ciudadUsuario);
+    public List<TerminalVista> obtenerTodosLosTerminales() {
+        return dao.obtenerTodosLosTerminales();
     }
     // Aquí puedes agregar más lógica de negocio, validaciones, filtros, etc.
 }

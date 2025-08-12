@@ -1,37 +1,39 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.terminalbusesDAL;
 
-/**
- *
- * @author Jorge
- */
+import java.util.Objects;
+
 public class VehiculoVista {
-    private int codVehiculo;
-    private int codTerminal;
-    private String placaVehiculo;
-    private int capacidadVehiculo;
-    private String compañiaVehiculo;
-    
-   public VehiculoVista(int codVehiculo, int codTerminal, String placaVehiculo, int capacidadVehiculo, String compañiaVehiculo) {
-       this.codVehiculo = codVehiculo; 
-       this.codTerminal = codTerminal;
-       this.placaVehiculo = placaVehiculo;
-       this.capacidadVehiculo = capacidadVehiculo; 
-       this.compañiaVehiculo = compañiaVehiculo;
+    private final int codTerminal;
+    private final String placaVehiculo;
+    private final int capacidadVehiculo;
+
+    public VehiculoVista(int codTerminal, String placaVehiculo, int capacidadVehiculo) {
+        this.codTerminal = codTerminal;
+        this.placaVehiculo = placaVehiculo;
+        this.capacidadVehiculo = capacidadVehiculo;
     }
-    
-    public int getCodVehiculo() { return codVehiculo; }
+
     public int getCodTerminal() { return codTerminal; }
     public String getPlacaVehiculo() { return placaVehiculo; }
     public int getCapacidadVehiculo() { return capacidadVehiculo; }
-    public String getCompañiaVehiculo() { return compañiaVehiculo; }
 
     @Override
-public String toString() {
-    return placaVehiculo;  // o "Placa: " + placaVehiculo
-}
+    public String toString() {
+        return placaVehiculo; // útil para ComboBox/Logs
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof VehiculoVista)) return false;
+        VehiculoVista that = (VehiculoVista) o;
+        // placa suele ser única por terminal
+        return codTerminal == that.codTerminal &&
+               Objects.equals(placaVehiculo, that.placaVehiculo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(codTerminal, placaVehiculo);
+    }
 }
