@@ -43,12 +43,12 @@ BEGIN
     BEGIN TRAN;
 
     -- 1) Borrar boletos del viaje (necesario si NO tienes ON DELETE CASCADE)
-    DELETE FROM dbo.Boleto_Vista
+    DELETE FROM [VLADIMIRJON].Terminal_Quito.dbo.Boleto_Vista
     WHERE cod_terminal = @cod_terminal
       AND cod_viaje    = @cod_viaje;
 
     -- 2) Borrar el viaje
-    DELETE FROM dbo.Viaje_Vista
+    DELETE FROM [VLADIMIRJON].Terminal_Quito.dbo.Viaje_Vista
     WHERE cod_terminal = @cod_terminal
       AND cod_viaje    = @cod_viaje;
 
@@ -94,7 +94,7 @@ BEGIN
            cod_conductor = COALESCE(@cod_conductor, V.cod_conductor),
            fecha_viaje   = COALESCE(@fecha_viaje,   V.fecha_viaje),
            hora_viaje    = COALESCE(@hora_viaje,    V.hora_viaje)
-     FROM dbo.Viaje_Vista AS V
+     FROM [VLADIMIRJON].Terminal_Quito.dbo.Viaje_Vista AS V
     WHERE V.cod_terminal = @cod_terminal
       AND V.cod_viaje    = @cod_viaje;
 
@@ -128,7 +128,7 @@ BEGIN
 
   IF (@capacidad <= 0) THROW 50010, 'capacidad debe ser > 0', 1;
 
-  INSERT INTO dbo.Bus_Vista (cod_terminal, placa, capacidad)
+  INSERT INTO [VLADIMIRJON].Terminal_Quito.dbo.Bus_Vista (cod_terminal, placa, capacidad)
   VALUES (@cod_terminal, @placa, @capacidad);
 END
 GO
@@ -157,7 +157,7 @@ BEGIN
 
     UPDATE V
        SET capacidad = COALESCE(@capacidad, V.capacidad)
-      FROM dbo.Bus_Vista AS V
+      FROM [VLADIMIRJON].Terminal_Quito.dbo.Bus_Vista AS V
      WHERE V.cod_terminal = @cod_terminal
        AND V.placa        = @placa;
 
@@ -193,20 +193,20 @@ BEGIN
 
     -- 1) Boletos de viajes de ese bus
     DELETE B
-      FROM dbo.Boleto_Vista AS B
-      JOIN dbo.Viaje_Vista  AS V
+      FROM [VLADIMIRJON].Terminal_Quito.dbo.Boleto_Vista AS B
+      JOIN [VLADIMIRJON].Terminal_Quito.dbo.Viaje_Vista  AS V
         ON V.cod_terminal = B.cod_terminal
        AND V.cod_viaje    = B.cod_viaje
      WHERE V.cod_terminal = @cod_terminal
        AND V.placa        = @placa;
 
     -- 2) Viajes de ese bus
-    DELETE FROM dbo.Viaje_Vista
+    DELETE FROM [VLADIMIRJON].Terminal_Quito.dbo.Viaje_Vista
      WHERE cod_terminal = @cod_terminal
        AND placa        = @placa;
 
     -- 3) Bus
-    DELETE FROM dbo.Bus_Vista
+    DELETE FROM [VLADIMIRJON].Terminal_Quito.dbo.Bus_Vista
      WHERE cod_terminal = @cod_terminal
        AND placa        = @placa;
 
@@ -241,7 +241,7 @@ BEGIN
 
   IF (@precio <= 0) THROW 50020, 'precio debe ser > 0', 1;
 
-  INSERT INTO dbo.Ruta_Vista (cod_terminal, cod_ruta, ciudad_destino, precio)
+  INSERT INTO [VLADIMIRJON].Terminal_Quito.dbo.Ruta_Vista (cod_terminal, cod_ruta, ciudad_destino, precio)
   VALUES (@cod_terminal, @cod_ruta, @ciudad_destino, @precio);
 END
 GO
@@ -271,7 +271,7 @@ BEGIN
     UPDATE R
        SET ciudad_destino = COALESCE(@ciudad_destino, R.ciudad_destino),
            precio         = COALESCE(@precio,         R.precio)
-      FROM dbo.Ruta_Vista AS R
+      FROM [VLADIMIRJON].Terminal_Quito.dbo.Ruta_Vista AS R
      WHERE R.cod_terminal = @cod_terminal
        AND R.cod_ruta     = @cod_ruta;
 
@@ -306,20 +306,20 @@ BEGIN
 
     -- 1) Boletos de los viajes de la ruta
     DELETE B
-      FROM dbo.Boleto_Vista AS B
-      JOIN dbo.Viaje_Vista  AS V
+      FROM [VLADIMIRJON].Terminal_Quito.dbo.Boleto_Vista AS B
+      JOIN [VLADIMIRJON].Terminal_Quito.dbo.Viaje_Vista  AS V
         ON V.cod_terminal = B.cod_terminal
        AND V.cod_viaje    = B.cod_viaje
      WHERE V.cod_terminal  = @cod_terminal
        AND V.cod_ruta      = @cod_ruta;
 
     -- 2) Viajes de la ruta
-    DELETE FROM dbo.Viaje_Vista
+    DELETE FROM [VLADIMIRJON].Terminal_Quito.dbo.Viaje_Vista
      WHERE cod_terminal = @cod_terminal
        AND cod_ruta     = @cod_ruta;
 
     -- 3) La ruta
-    DELETE FROM dbo.Ruta_Vista
+    DELETE FROM [VLADIMIRJON].Terminal_Quito.dbo.Ruta_Vista
      WHERE cod_terminal = @cod_terminal
        AND cod_ruta     = @cod_ruta;
 
@@ -354,7 +354,7 @@ BEGIN
 
   IF (@num_asiento <= 0) THROW 50030, 'num_asiento debe ser > 0', 1;
 
-  INSERT INTO dbo.Boleto_Vista (cod_terminal, cod_viaje, cedula_pasajero, num_asiento)
+  INSERT INTO [VLADIMIRJON].Terminal_Quito.dbo.Boleto_Vista (cod_terminal, cod_viaje, cedula_pasajero, num_asiento)
   VALUES (@cod_terminal, @cod_viaje, @cedula_pasajero, @num_asiento);
 END
 GO
@@ -385,7 +385,7 @@ BEGIN
 
     UPDATE B
        SET num_asiento = COALESCE(@num_asiento, B.num_asiento)
-      FROM dbo.Boleto_Vista AS B
+      FROM [VLADIMIRJON].Terminal_Quito.dbo.Boleto_Vista AS B
      WHERE B.cod_terminal    = @cod_terminal
        AND B.cod_viaje       = @cod_viaje
        AND B.cedula_pasajero = @cedula_pasajero;
@@ -417,7 +417,7 @@ BEGIN
   SET NUMERIC_ROUNDABORT OFF; SET ANSI_PADDING ON; SET ANSI_WARNINGS ON;
   SET CONCAT_NULL_YIELDS_NULL ON; SET ARITHABORT ON;
 
-  DELETE FROM dbo.Boleto_Vista
+  DELETE FROM [VLADIMIRJON].Terminal_Quito.dbo.Boleto_Vista
    WHERE cod_terminal    = @cod_terminal
      AND cod_viaje       = @cod_viaje
      AND cedula_pasajero = @cedula_pasajero;
@@ -449,7 +449,7 @@ BEGIN
   IF LEN(@cedula_pasajero) = 0 OR @cedula_pasajero IS NULL
      THROW 50040, 'cedula_pasajero es requerida', 1;
 
-  INSERT INTO dbo.Pasajero_Vista
+  INSERT INTO [VLADIMIRJON].Terminal_Quito.dbo.Pasajero_Vista
     (cedula_pasajero, nombre_pasajero, apellido_pasajero,
      telefono_pasajero, correo_pasajero, rowguid)
   VALUES
@@ -482,7 +482,7 @@ BEGIN
            apellido_pasajero = COALESCE(@apellido_pasajero, P.apellido_pasajero),
            telefono_pasajero = COALESCE(@telefono_pasajero, P.telefono_pasajero),
            correo_pasajero   = COALESCE(@correo_pasajero,   P.correo_pasajero)
-      FROM dbo.Pasajero_Vista AS P
+      FROM [VLADIMIRJON].Terminal_Quito.dbo.Pasajero_Vista AS P
      WHERE P.cedula_pasajero = @cedula_pasajero;
 
     IF @@ROWCOUNT = 0
@@ -515,11 +515,11 @@ BEGIN
     BEGIN TRAN;
 
     -- Eliminar boletos del pasajero en ambos terminales (por la vista global si la usas)
-    DELETE FROM dbo.Boleto_Vista
+    DELETE FROM [VLADIMIRJON].Terminal_Quito.dbo.Boleto_Vista
      WHERE cedula_pasajero = @cedula_pasajero;
 
     -- Eliminar pasajero
-    DELETE FROM dbo.Pasajero_Vista
+    DELETE FROM [VLADIMIRJON].Terminal_Quito.dbo.Pasajero_Vista
      WHERE cedula_pasajero = @cedula_pasajero;
 
     IF @@ROWCOUNT = 0
@@ -556,11 +556,11 @@ BEGIN
     BEGIN TRAN;
 
     -- 1) Datos (local en Quito)
-    INSERT INTO dbo.ConductorDatos (cod_conductor, nombre_conductor, apellido_conductor)
+    INSERT INTO [VLADIMIRJON].Terminal_Quito.dbo.ConductorDatos (cod_conductor, nombre_conductor, apellido_conductor)
     VALUES (@cod_conductor, @nombre_conductor, @apellido_conductor);
 
     -- 2) Asignación a terminal (vía vista particionada → puede usar DTC)
-    INSERT INTO dbo.ConductorHorizontal_Vista (cod_conductor, cod_terminal, cedula_conductor)
+    INSERT INTO [VLADIMIRJON].Terminal_Quito.dbo.ConductorHorizontal_Vista (cod_conductor, cod_terminal, cedula_conductor)
     VALUES (@cod_conductor, @cod_terminal, @cedula_conductor);
 
     COMMIT;
@@ -601,7 +601,7 @@ BEGIN
       UPDATE D
          SET nombre_conductor   = COALESCE(@nombre_conductor,   D.nombre_conductor),
              apellido_conductor = COALESCE(@apellido_conductor, D.apellido_conductor)
-        FROM dbo.ConductorDatos AS D
+        FROM [VLADIMIRJON].Terminal_Quito.dbo.ConductorDatos AS D
        WHERE D.cod_conductor = @cod_conductor;
 
       IF @@ROWCOUNT = 0
@@ -611,7 +611,7 @@ BEGIN
     /* 2) Lee asignación actual en vista horizontal */
     SELECT @cod_terminal_actual = H.cod_terminal,
            @cedula_actual       = H.cedula_conductor
-      FROM dbo.ConductorHorizontal_Vista AS H
+      FROM [VLADIMIRJON].Terminal_Quito.dbo.ConductorHorizontal_Vista AS H
      WHERE H.cod_conductor = @cod_conductor;
 
     IF @cod_terminal_actual IS NULL
@@ -625,7 +625,7 @@ BEGIN
       -- Solo edición dentro del mismo fragmento
       UPDATE H
          SET cedula_conductor = @cedula_conductor
-        FROM dbo.ConductorHorizontal_Vista AS H
+        FROM [VLADIMIRJON].Terminal_Quito.dbo.ConductorHorizontal_Vista AS H
        WHERE H.cod_conductor = @cod_conductor
          AND H.cod_terminal  = @cod_terminal_actual;
 
@@ -635,11 +635,11 @@ BEGIN
     ELSE
     BEGIN
       -- "Move" entre particiones: DELETE + INSERT (no se puede cambiar la columna de partición con UPDATE)
-      DELETE FROM dbo.ConductorHorizontal_Vista
+      DELETE FROM [VLADIMIRJON].Terminal_Quito.dbo.ConductorHorizontal_Vista
        WHERE cod_conductor = @cod_conductor
          AND cod_terminal  = @cod_terminal_actual;
 
-      INSERT INTO dbo.ConductorHorizontal_Vista (cod_conductor, cod_terminal, cedula_conductor)
+      INSERT INTO [VLADIMIRJON].Terminal_Quito.dbo.ConductorHorizontal_Vista (cod_conductor, cod_terminal, cedula_conductor)
       VALUES (@cod_conductor, @cod_terminal_nuevo, @cedula_conductor);
     END
 
@@ -672,7 +672,7 @@ BEGIN
 
     -- Detecta en qué terminal está (para borrar en el nodo correcto)
     SELECT @t = H.cod_terminal
-      FROM dbo.ConductorHorizontal_Vista AS H
+      FROM [VLADIMIRJON].Terminal_Quito.dbo.ConductorHorizontal_Vista AS H
      WHERE H.cod_conductor = @cod_conductor;
 
     IF @t IS NULL
@@ -680,8 +680,8 @@ BEGIN
 
     -- 1) Boletos de viajes de ese conductor
     DELETE B
-      FROM dbo.Boleto_Vista AS B
-      JOIN dbo.Viaje_Vista  AS V
+      FROM [VLADIMIRJON].Terminal_Quito.dbo.Boleto_Vista AS B
+      JOIN [VLADIMIRJON].Terminal_Quito.dbo.Viaje_Vista  AS V
         ON V.cod_terminal = B.cod_terminal
        AND V.cod_viaje    = B.cod_viaje
      WHERE V.cod_conductor = @cod_conductor;

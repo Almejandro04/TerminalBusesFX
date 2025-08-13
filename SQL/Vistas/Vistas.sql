@@ -48,7 +48,7 @@ GO
 -- PRIMERO LA HORIZONTAL
 Create view ConductorHorizontal_Vista AS
 SELECT * from [VLADIMIRJON].Terminal_Quito.dbo.ConductorTerminal_1
-UNION 
+UNION ALL
 SELECT * FROM [ASUS-8KR2UI2].Terminal_Ibarra.dbo.ConductorTerminal_2
 GO
 

@@ -8,7 +8,6 @@ CREATE TABLE dbo.ConductorTerminal_2 (
   cod_conductor INT PRIMARY KEY,
   cod_terminal  INT NOT NULL,
   cedula_conductor VARCHAR(15) NOT NULL,
-  CONSTRAINT CK_ConductorTerminal_2 CHECK (cod_terminal = 2),
   CONSTRAINT FK_CT2_Terminal FOREIGN KEY (cod_terminal) REFERENCES dbo.TERMINAL(cod_terminal)
 );
 
@@ -36,7 +35,7 @@ CREATE TABLE dbo.Bus_2 (
 );
 
 
--- Horizontal derivada (añadir cod_terminal y ponerlo en la PK)
+-- Horizontal derivada (aï¿½adir cod_terminal y ponerlo en la PK)
 CREATE TABLE dbo.Viaje_2 (
   cod_terminal   INT          NOT NULL,
   cod_viaje      INT          NOT NULL,
