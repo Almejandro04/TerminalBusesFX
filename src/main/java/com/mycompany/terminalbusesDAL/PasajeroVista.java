@@ -5,6 +5,7 @@
 package com.mycompany.terminalbusesDAL;
 
 public class PasajeroVista {
+    
     private final String cedulaPasajero;
     private final String nombrePasajero;
     private final String apellidoPasajero;

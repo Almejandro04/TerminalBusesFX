@@ -11,7 +11,7 @@ public class PasajeroVistaDAO {
 
     public List<PasajeroVista> obtenerTodosLosPasajeros() {
         List<PasajeroVista> lista = new ArrayList<>();
-        final String sql = "SELECT * FROM dbo.Pasajero_Vista";
+        final String sql = "SELECT * FROM [VLADIMIRJON].[Terminal_Quito].dbo.Pasajero_Vista";
 
         try (Connection conn = ConexionBD.conectar();
              PreparedStatement ps = conn.prepareStatement(sql);

@@ -6,6 +6,7 @@ select * from Viaje_Vista
 select * from Boleto_Vista
 select * from Pasajero_Vista
 select * from Conductor_Vista
+select * from Terminal_Vista
 
 SET XACT_ABORT ON 
 -- RUTA
@@ -68,3 +69,12 @@ JOIN [VLADIMIRJON].[Terminal_Quito].dbo.ConductorHorizontal_Vista AS h
   ON h.cod_conductor = d.cod_conductor;
 GO
 
+-- TERMINAL
+CREATE OR ALTER VIEW dbo.Terminal_Vista AS
+SELECT
+    cod_terminal,
+    ciudad_terminal,
+    nombre_terminal,
+    direccion_terminal
+FROM dbo.TERMINAL;
+GO
