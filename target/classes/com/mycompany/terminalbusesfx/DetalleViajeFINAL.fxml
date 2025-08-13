@@ -99,14 +99,13 @@
                            <center>
                               <TableView fx:id="tblViajes" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #A3C7E4; -fx-border-width: 1;" BorderPane.alignment="CENTER">
                                 <columns>
+                                    <TableColumn fx:id="colTerminalViaje" prefWidth="75.0" text="Cod_Terminal" />
                                   <TableColumn fx:id="colcodViaje" prefWidth="75.0" text="Código" />
                                   <TableColumn fx:id="colConductor" prefWidth="75.0" text="Conductor" />
-                                  <TableColumn fx:id="colVehiculo" prefWidth="75.0" text="Vehiculo" />
-                                    <TableColumn fx:id="ColTerminal" prefWidth="75.0" text="Terminal" />
+                                  <TableColumn fx:id="colVehiculo" prefWidth="75.0" text="Placa" />
+                                    <TableColumn fx:id="ColRutaViaje" prefWidth="75.0" text="Ruta" />
                                     <TableColumn fx:id="colFecha" prefWidth="75.0" text="Fecha" />
                                     <TableColumn fx:id="colHora" prefWidth="75.0" text="Hora" />
-                                    <TableColumn fx:id="colCiudadDestino" prefWidth="75.0" text="Destino" />
-                                    <TableColumn fx:id="colPrecio" prefWidth="75.0" text="Precio" />
                                 </columns>
                               </TableView>
                            </center>
@@ -146,6 +145,7 @@
                            <center>
                               <TableView fx:id="tblBoletos" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #A3C7E4; -fx-border-width: 1;" BorderPane.alignment="CENTER">
                                  <columns>
+                                    <TableColumn fx:id="colTerminalBoleto" prefWidth="60.80004119873047" text="Cod_Viaje" />
                                     <TableColumn fx:id="colViajeBoleto" prefWidth="60.80004119873047" text="Cod_Viaje" />
                                     <TableColumn fx:id="colCedulaBoleto" prefWidth="75.0" text="Cédula" />
                                     <TableColumn fx:id="colAsientoBoleto" prefWidth="89.5999755859375" text="# Asiento" />

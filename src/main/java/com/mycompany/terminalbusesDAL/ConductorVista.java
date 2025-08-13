@@ -2,20 +2,31 @@ package com.mycompany.terminalbusesDAL;
 
 public class ConductorVista {
 
+    private final int codConductor;
     private final int codTerminal;
+    private final String cedulaConductor;
     private final String nombreConductor;
     private final String apellidoConductor;
-    private final String licenciaConductor;
 
-    public ConductorVista(int codTerminal, String nombreConductor, String apellidoConductor, String licenciaConductor) {
+    public ConductorVista(int codConductor, int codTerminal, String cedulaConductor,
+                           String nombreConductor, String apellidoConductor) {
+        this.codConductor = codConductor;
         this.codTerminal = codTerminal;
+        this.cedulaConductor = cedulaConductor;
         this.nombreConductor = nombreConductor;
         this.apellidoConductor = apellidoConductor;
-        this.licenciaConductor = licenciaConductor;
+    }
+
+    public int getCodConductor() {
+        return codConductor;
     }
 
     public int getCodTerminal() {
         return codTerminal;
+    }
+
+    public String getCedulaConductor() {
+        return cedulaConductor;
     }
 
     public String getNombreConductor() {
@@ -26,13 +37,8 @@ public class ConductorVista {
         return apellidoConductor;
     }
 
-    public String getLicenciaConductor() {
-        return licenciaConductor;
-    }
-
     @Override
     public String toString() {
-        return nombreConductor + " " + apellidoConductor + " (" + licenciaConductor + ")";
+        return nombreConductor + " " + apellidoConductor + " (" + cedulaConductor + ")";
     }
-
 }

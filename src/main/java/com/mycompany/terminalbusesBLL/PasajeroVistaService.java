@@ -4,6 +4,8 @@
  */
 package com.mycompany.terminalbusesBLL;
 
+import java.util.List;
+
 /**
  *
  * @author Jorge
@@ -11,7 +13,6 @@ package com.mycompany.terminalbusesBLL;
 
 import com.mycompany.terminalbusesDAL.PasajeroVista;
 import com.mycompany.terminalbusesDAL.PasajeroVistaDAO;
-import java.util.List;
 
 
 public class PasajeroVistaService {
@@ -25,12 +26,12 @@ public class PasajeroVistaService {
 //    public List<PasajeroVista> obtenerTodosLosPasajeros() {
 //        return dao.obtenerTodosLosPasajeros();
 //    }   
-    public List<PasajeroVista> obtenerPasajerosPorUsuario(String ciudadUsuario) {
-        return dao.obtenerTodosLosPasajeros(ciudadUsuario);
+    public List<PasajeroVista> obtenerPasajerosPorUsuario() {
+        return dao.obtenerTodosLosPasajeros();
     }
     
-        public List<PasajeroVista> obtenerPasajerosPorViaje(String ciudadUsuario, int codViaje) {
-        return dao.obtenerPasajerosPorViaje(ciudadUsuario, codViaje);
-    }
+    //     public List<PasajeroVista> obtenerPasajerosPorViaje(String ciudadUsuario, int codViaje) {
+    //     return dao.obtenerPasajerosPorViaje(ciudadUsuario, codViaje);
+    // }
     
 }
