@@ -7,7 +7,7 @@ use Terminal_Ibarra
 CREATE TABLE dbo.ConductorTerminal_2 (
   cod_conductor INT PRIMARY KEY,
   cod_terminal  INT NOT NULL,
-  cédula_conductor VARCHAR(15) NOT NULL,
+  cedula_conductor VARCHAR(15) NOT NULL,
   CONSTRAINT CK_ConductorTerminal_2 CHECK (cod_terminal = 2),
   CONSTRAINT FK_CT2_Terminal FOREIGN KEY (cod_terminal) REFERENCES dbo.TERMINAL(cod_terminal)
 );
