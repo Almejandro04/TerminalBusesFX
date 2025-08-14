@@ -41,6 +41,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -56,6 +57,8 @@ public class DetalleViajeFINALController implements Initializable {
     @FXML private DatePicker   dpFechaHasta;
     @FXML private ComboBox<String> cbOrigen;
     @FXML private ComboBox<String> cbDestino;
+    @FXML private VBox boxFiltros;
+
 
     // Tabla Terminal
     @FXML private TableView<TerminalVista> tblTerminales;
@@ -114,6 +117,9 @@ public class DetalleViajeFINALController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        boxFiltros.setVisible(false);
+        boxFiltros.setManaged(false);
         // Listener cambio de pestaña
         tabPane.getSelectionModel().selectedItemProperty().addListener(this::onTabChanged);
 
