@@ -132,7 +132,10 @@ public class editar_ViajeController implements Initializable {
     public void setViaje(ViajeVista v) {
         this.viajeActual = v;
 
-        if (tfCodigo != null) tfCodigo.setText(String.valueOf(v.getCodViaje()));
+        if (tfCodigo != null) {
+        tfCodigo.setText(String.valueOf(v.getCodViaje()));
+        tfCodigo.setDisable(true); 
+        }
         if (dpFechaViaje != null) dpFechaViaje.setValue(v.getFechaViaje());
         if (v.getHoraViaje() != null) {
             if (spHora != null && spHora.getValueFactory() != null)
