@@ -25,7 +25,7 @@ GO
 ----------------------------------------------------
 
 
--- 1) Fragmentación vertical de CONDUCTOR
+-- 1) Fragmentacion vertical de CONDUCTOR
 CREATE TABLE dbo.ConductorDatos (
   cod_conductor INT PRIMARY KEY,
   nombre_conductor VARCHAR(80) NOT NULL,
@@ -33,14 +33,17 @@ CREATE TABLE dbo.ConductorDatos (
 );
 
 CREATE TABLE dbo.ConductorTerminal_1 (
-  cod_conductor INT PRIMARY KEY,
-  cod_terminal  INT NOT NULL,
-  cedula_conductor VARCHAR(15) NOT NULL,
-  CONSTRAINT CK_ConductorTerminal_1 CHECK (cod_terminal = 1),
-  CONSTRAINT FK_CT1_Terminal FOREIGN KEY (cod_terminal) REFERENCES dbo.TERMINAL(cod_terminal)
+  cod_terminal       INT          NOT NULL,
+  cod_conductor      INT          NOT NULL,
+  cedula_conductor   VARCHAR(15)  NOT NULL,
+  CONSTRAINT CK_CT1_cod_terminal CHECK (cod_terminal = 1),
+  CONSTRAINT PK_CT1 PRIMARY KEY (cod_terminal, cod_conductor),
+  CONSTRAINT FK_CT1_Terminal FOREIGN KEY (cod_terminal)
+    REFERENCES dbo.TERMINAL(cod_terminal)
 );
+GO
 
--- 2) Fragmentación horizontal primaria de RUTA y BUS (Quito)
+-- 2) Fragmentacion horizontal primaria de RUTA y BUS (Quito)
 
 CREATE TABLE dbo.Ruta_1 (
   cod_terminal INT NOT NULL,
@@ -62,16 +65,16 @@ CREATE TABLE dbo.Bus_1 (
   CONSTRAINT FK_Bus1_Terminal FOREIGN KEY (cod_terminal) REFERENCES dbo.TERMINAL(cod_terminal)
 );
 
--- 3) Fragmentación horizontal derivada: VIAJE_1 respecto a RUTA_1
+-- 3) Fragmentacion horizontal derivada: VIAJE_1 respecto a RUTA_1
 
-CREATE TABLE dbo.Viaje_1 (
+CREATE TABLE dbo.Viaje_1 ( 
   cod_terminal  INT        NOT NULL,
-  cod_viaje   INT NOT NULL,  
-  placa       VARCHAR(10) NOT NULL,
-  cod_ruta    INT NOT NULL,
-  cod_conductor INT NOT NULL,
-  fecha_viaje DATE NOT NULL,
-  hora_viaje  TIME(0) NOT NULL,
+  cod_viaje     INT        NOT NULL,  
+  placa         VARCHAR(10) NOT NULL,
+  cod_ruta      INT        NOT NULL,
+  cod_conductor INT        NOT NULL,
+  fecha_viaje   DATE       NOT NULL,
+  hora_viaje    TIME(0)    NOT NULL,
 
   CONSTRAINT PK_Viaje_1 PRIMARY KEY (cod_terminal, cod_viaje),
   CONSTRAINT CK_Viaje_1 CHECK (cod_terminal = 1),
@@ -84,13 +87,14 @@ CREATE TABLE dbo.Viaje_1 (
     FOREIGN KEY (cod_terminal, cod_ruta)
     REFERENCES dbo.Ruta_1 (cod_terminal, cod_ruta),
 
-  -- Conductor vertical: su PK es (cod_conductor), basta referenciarla así
+  -- Referencia compuesta a la PK (cod_terminal, cod_conductor)
   CONSTRAINT FK_V1_Cond
-    FOREIGN KEY (cod_conductor)
-    REFERENCES dbo.ConductorTerminal_1 (cod_conductor)
+    FOREIGN KEY (cod_terminal, cod_conductor)
+    REFERENCES dbo.ConductorTerminal_1 (cod_terminal, cod_conductor)
 );
+GO
 
--- 4) Fragmentación horizontal derivada: BOLETO_1 respecto a VIAJE_1
+-- 4) Fragmentacion horizontal derivada: BOLETO_1 respecto a VIAJE_1
 
 CREATE TABLE dbo.Boleto_1 (
   cod_terminal    INT         NOT NULL,
@@ -106,7 +110,4 @@ CREATE TABLE dbo.Boleto_1 (
 
   CONSTRAINT FK_B1_Pasaj FOREIGN KEY (cedula_pasajero)
     REFERENCES dbo.PASAJERO(cedula_pasajero),
-
-  -- Opcional recomendado: un asiento no se puede vender dos veces en el mismo viaje
-  CONSTRAINT UQ_B1_Asiento UNIQUE (cod_terminal, cod_viaje, num_asiento)
 );
