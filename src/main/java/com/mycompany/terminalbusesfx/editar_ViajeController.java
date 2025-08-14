@@ -30,7 +30,8 @@ import javafx.util.StringConverter;
 
 public class editar_ViajeController implements Initializable {
 
-    @FXML private TextField                tfCodigo;        // cod_viaje (solo lectura)
+    // --- UI ---
+    @FXML private TextField                tfCodigo;        // puede NO existir en el FXML; por eso null-guard
     @FXML private ComboBox<ConductorVista> cbConductor;
     @FXML private ComboBox<VehiculoVista>  cbVehiculo;      // placa
     @FXML private ComboBox<RutaVista>      cbRuta;
@@ -38,97 +39,139 @@ public class editar_ViajeController implements Initializable {
     @FXML private Spinner<Integer>         spHora, spMin;
     @FXML private Button                   btnGuardar, btnCancelar;
 
+    // --- Servicios / estado ---
     private final ViajeProcedimientoService service = new ViajeProcedimientoService();
 
-    private String    ciudadUsuario;   // "quito" | "ibarra"
-    private ViajeVista viajeActual;    // registro a editar
+    private String    ciudadUsuario;         // "quito" | "ibarra"
+    private ViajeVista viajeActual;          // registro a editar
     private boolean   saved = false;
 
-    /* ======================= Ciclo de vida ======================= */
+    // Buffer temporal por si setViaje llega antes de setCiudadUsuario
+    private Integer   selCodConductor;
+    private String    selPlaca;
+    private Integer   selCodRuta;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // Spinners de hora/minuto (compatibles con Java 8/11)
-        spHora.setValueFactory(
-            new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, LocalTime.now().getHour())
-        );
-        spMin.setValueFactory(
-            new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, LocalTime.now().getMinute())
-        );
+        // Null-guards por si el FXML no define alguno (evita NPE)
+        if (spHora != null) {
+            spHora.setValueFactory(
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, LocalTime.now().getHour())
+            );
+        }
+        if (spMin != null) {
+            spMin.setValueFactory(
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, LocalTime.now().getMinute())
+            );
+        }
+        if (dpFechaViaje != null && dpFechaViaje.getValue() == null) {
+            dpFechaViaje.setValue(LocalDate.now());
+        }
 
-        // Render de combos
-        cbConductor.setConverter(new StringConverter<ConductorVista>() {
-            @Override public String toString(ConductorVista c) {
-                return c == null ? "" : c.getNombreConductor() + " " + c.getApellidoConductor();
-            }
-            @Override public ConductorVista fromString(String s) { return null; }
-        });
-        cbVehiculo.setConverter(new StringConverter<VehiculoVista>() {
-            @Override public String toString(VehiculoVista v) {
-                return v == null ? "" : v.getPlacaVehiculo();
-            }
-            @Override public VehiculoVista fromString(String s) { return null; }
-        });
-        cbRuta.setConverter(new StringConverter<RutaVista>() {
-            @Override public String toString(RutaVista r) {
-                if (r == null) return "";
-                String precio = r.getPrecio() == null ? "-" : r.getPrecio().toString();
-                return "#" + r.getCodRuta() + " • " + r.getCiudadDestino() + " • $" + precio;
-            }
-            @Override public RutaVista fromString(String s) { return null; }
-        });
+        // Render de combos (si existen)
+        if (cbConductor != null) {
+            cbConductor.setConverter(new StringConverter<ConductorVista>() {
+                @Override public String toString(ConductorVista c) {
+                    return c == null ? "" : c.getNombreConductor() + " " + c.getApellidoConductor();
+                }
+                @Override public ConductorVista fromString(String s) { return null; }
+            });
+        }
+        if (cbVehiculo != null) {
+            cbVehiculo.setConverter(new StringConverter<VehiculoVista>() {
+                @Override public String toString(VehiculoVista v) {
+                    return v == null ? "" : v.getPlacaVehiculo();
+                }
+                @Override public VehiculoVista fromString(String s) { return null; }
+            });
+        }
+        if (cbRuta != null) {
+            cbRuta.setConverter(new StringConverter<RutaVista>() {
+                @Override public String toString(RutaVista r) {
+                    if (r == null) return "";
+                    String precio = (r.getPrecio() == null) ? "-" : r.getPrecio().toString();
+                    return "#" + r.getCodRuta() + " • " + r.getCiudadDestino() + " • $" + precio;
+                }
+                @Override public RutaVista fromString(String s) { return null; }
+            });
+        }
 
-        // Código solo lectura
-        tfCodigo.setEditable(false);
-        tfCodigo.setDisable(true);
+        // Código solo lectura si existe en FXML
+        if (tfCodigo != null) {
+            tfCodigo.setEditable(false);
+            tfCodigo.setDisable(true);
+        }
     }
 
-    /** Inyecta ciudad y carga listas para esa sede */
+    /** Inyecta la ciudad y carga listas para esa sede */
     public void setCiudadUsuario(String ciudad) {
-        this.ciudadUsuario = ciudad;
+        this.ciudadUsuario = (ciudad == null ? "" : ciudad.trim());
 
-        cbConductor.setItems(FXCollections.observableArrayList(
-            new ConductorVistaService().obtenerConductoresPorUsuario(ciudadUsuario)
-        ));
-        cbVehiculo.setItems(FXCollections.observableArrayList(
-            new VehiculoVistaService().obtenerVehiculosPorUsuario(ciudadUsuario)
-        ));
-        cbRuta.setItems(FXCollections.observableArrayList(
-            new RutaVistaService().obtenerRutasPorUsuario(ciudadUsuario)
-        ));
+        // Cargar listas filtradas
+        if (cbConductor != null) {
+            cbConductor.setItems(FXCollections.observableArrayList(
+                new ConductorVistaService().obtenerConductoresPorUsuario(ciudadUsuario)
+            ));
+        }
+        if (cbVehiculo != null) {
+            cbVehiculo.setItems(FXCollections.observableArrayList(
+                new VehiculoVistaService().obtenerVehiculosPorUsuario(ciudadUsuario)
+            ));
+        }
+        if (cbRuta != null) {
+            cbRuta.setItems(FXCollections.observableArrayList(
+                new RutaVistaService().obtenerRutasPorUsuario(ciudadUsuario)
+            ));
+        }
+
+        // Si ya teníamos seleccionado (vía setViaje), intenta seleccionar ahora
+        trySelectBufferedChoices();
     }
 
     /** Precarga datos del viaje seleccionado */
     public void setViaje(ViajeVista v) {
         this.viajeActual = v;
 
-        tfCodigo.setText(String.valueOf(v.getCodViaje()));
-        dpFechaViaje.setValue(v.getFechaViaje());
+        if (tfCodigo != null) tfCodigo.setText(String.valueOf(v.getCodViaje()));
+        if (dpFechaViaje != null) dpFechaViaje.setValue(v.getFechaViaje());
         if (v.getHoraViaje() != null) {
-            spHora.getValueFactory().setValue(v.getHoraViaje().getHour());
-            spMin .getValueFactory().setValue(v.getHoraViaje().getMinute());
+            if (spHora != null && spHora.getValueFactory() != null)
+                spHora.getValueFactory().setValue(v.getHoraViaje().getHour());
+            if (spMin  != null && spMin .getValueFactory() != null)
+                spMin .getValueFactory().setValue(v.getHoraViaje().getMinute());
         }
 
-        // Seleccionar conductor por cod_conductor
-        cbConductor.getSelectionModel().select(
-            cbConductor.getItems().stream()
-                .filter(c -> c.getCodConductor() == v.getCodConductor())
-                .findFirst().orElse(null)
-        );
+        // Si aún no están cargadas las listas (setCiudadUsuario no se llamó), bufferiza
+        selCodConductor = v.getCodConductor();
+        selPlaca        = v.getPlaca();
+        selCodRuta      = v.getCodRuta();
 
-        // Seleccionar vehículo por PLACA
-        cbVehiculo.getSelectionModel().select(
-            cbVehiculo.getItems().stream()
-                .filter(b -> b.getPlacaVehiculo().equalsIgnoreCase(v.getPlaca()))
-                .findFirst().orElse(null)
-        );
+        // Si ya hay datos en los combos, selecciona de inmediato
+        trySelectBufferedChoices();
+    }
 
-        // Seleccionar ruta por cod_ruta
-        cbRuta.getSelectionModel().select(
-            cbRuta.getItems().stream()
-                .filter(r -> r.getCodRuta() == v.getCodRuta())
-                .findFirst().orElse(null)
-        );
+    private void trySelectBufferedChoices() {
+        if (cbConductor != null && cbConductor.getItems() != null && !cbConductor.getItems().isEmpty() && selCodConductor != null) {
+            cbConductor.getSelectionModel().select(
+                cbConductor.getItems().stream()
+                    .filter(c -> c.getCodConductor() == selCodConductor)
+                    .findFirst().orElse(null)
+            );
+        }
+        if (cbVehiculo != null && cbVehiculo.getItems() != null && !cbVehiculo.getItems().isEmpty() && selPlaca != null) {
+            cbVehiculo.getSelectionModel().select(
+                cbVehiculo.getItems().stream()
+                    .filter(b -> b.getPlacaVehiculo().equalsIgnoreCase(selPlaca))
+                    .findFirst().orElse(null)
+            );
+        }
+        if (cbRuta != null && cbRuta.getItems() != null && !cbRuta.getItems().isEmpty() && selCodRuta != null) {
+            cbRuta.getSelectionModel().select(
+                cbRuta.getItems().stream()
+                    .filter(r -> r.getCodRuta() == selCodRuta)
+                    .findFirst().orElse(null)
+            );
+        }
     }
 
     /* ======================= Acciones ======================= */
@@ -136,38 +179,37 @@ public class editar_ViajeController implements Initializable {
     @FXML
     private void handleGuardar(ActionEvent e) {
         // Validación mínima
-        if (cbConductor.getValue()==null || cbVehiculo.getValue()==null ||
+        if (cbConductor == null || cbVehiculo == null || cbRuta == null || dpFechaViaje == null ||
+            cbConductor.getValue()==null || cbVehiculo.getValue()==null ||
             cbRuta.getValue()==null || dpFechaViaje.getValue()==null) {
             alert(Alert.AlertType.WARNING, "Complete Conductor, Bus, Ruta y Fecha.");
             return;
         }
 
-        LocalDate fecha = dpFechaViaje.getValue();
-        Integer h = spHora.getValue();
-        Integer m = spMin.getValue();
+        Integer h = (spHora != null) ? spHora.getValue() : null;
+        Integer m = (spMin  != null) ? spMin .getValue() : null;
         if (h == null || m == null) {
             alert(Alert.AlertType.WARNING, "Seleccione hora y minuto.");
             return;
         }
-        LocalTime hora = LocalTime.of(h, m);
 
-        // Java 8/11: switch clásico
+        LocalDate fecha = dpFechaViaje.getValue();
+        LocalTime hora  = LocalTime.of(h, m);
+
+        // Mapea ciudad → terminal
         int codTerminal;
-        switch (ciudadUsuario == null ? "" : ciudadUsuario.toLowerCase()) {
-            case "quito":
-                codTerminal = 1;
-                break;
-            case "ibarra":
-                codTerminal = 2;
-                break;
+        String c = (ciudadUsuario == null) ? "" : ciudadUsuario.toLowerCase();
+        switch (c) {
+            case "quito":  codTerminal = 1; break;
+            case "ibarra": codTerminal = 2; break;
             default:
                 alert(Alert.AlertType.ERROR, "Ciudad desconocida: " + ciudadUsuario);
                 return;
         }
 
-        // Actualiza el DTO existente (mantiene cod_viaje)
+        // Actualiza DTO (tu DAO usa placa, no codVehiculo)
         viajeActual.setCodConductor(cbConductor.getValue().getCodConductor());
-        viajeActual.setPlaca(cbVehiculo.getValue().getPlacaVehiculo()); // SP usa placa
+        viajeActual.setPlaca(cbVehiculo.getValue().getPlacaVehiculo());
         viajeActual.setCodRuta(cbRuta.getValue().getCodRuta());
         viajeActual.setCodTerminal(codTerminal);
         viajeActual.setFechaViaje(fecha);
@@ -180,7 +222,7 @@ public class editar_ViajeController implements Initializable {
                 return;
             }
             saved = true;
-            ((Stage) btnGuardar.getScene().getWindow()).close();
+            closeWindow();
         } catch (Exception ex) {
             ex.printStackTrace();
             alert(Alert.AlertType.ERROR, "Error al actualizar viaje:\n" + ex.getMessage());
@@ -189,7 +231,17 @@ public class editar_ViajeController implements Initializable {
 
     @FXML
     private void handleCancelar(ActionEvent e) {
-        ((Stage) btnCancelar.getScene().getWindow()).close();
+        closeWindow();
+    }
+
+    private void closeWindow() {
+        if (btnCancelar != null && btnCancelar.getScene() != null) {
+            Stage st = (Stage) btnCancelar.getScene().getWindow();
+            if (st != null) st.close();
+        } else if (btnGuardar != null && btnGuardar.getScene() != null) {
+            Stage st = (Stage) btnGuardar.getScene().getWindow();
+            if (st != null) st.close();
+        }
     }
 
     public boolean isSaved() { return saved; }
