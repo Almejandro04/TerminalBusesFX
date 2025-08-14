@@ -1,79 +1,74 @@
-// /*
-//  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-//  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
-//  */
-// package com.mycompany.terminalbusesDAL;
+package com.mycompany.terminalbusesDAL;
 
-// /**
-//  *
-//  * @author Jorge
-//  */
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.SQLException;
 
-//     /*
-//  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-//  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
-//  */
+public class ConductorProcedimientoDAO {
 
-// import java.sql.CallableStatement;
-// import java.sql.Connection;
-// import java.sql.PreparedStatement;
-// import java.sql.SQLException;
-// /**
-//  *
-//  * @author Jorge
-//  */
-// public class ConductorProcedimientoDAO {
-//     public boolean insertarConductorCompleto(ConductorVista c, String ciudad) throws SQLException {
-//         String sql;
-//         switch (ciudad.toLowerCase()) {
-//             case "ibarra":
-//                 sql = "{ CALL dbo.InsertarConductorCompleto(?, ?, ?, ?) }";
-//                 break;
-//             case "quito":
-//                 sql = "{ CALL [VLADIMIRJON].[Terminal_Quito].[dbo].[InsertarConductorCompleto](?, ?, ?, ?) }";
-//                 break;
-//             default:
-//                 throw new IllegalArgumentException("Conductor no reconocido: " + ciudad);
-//         }
-//         try (Connection cn = ConexionBD.conectar();
-//              CallableStatement cs = cn.prepareCall(sql)) {
-
-//                 cs.setInt(1, c.getCodTerminal());
-//                 cs.setString(2, c.getNombreConductor());
-//                 cs.setString(3, c.getApellidoConductor());
-//                 cs.setString(4, c.getLicenciaConductor());
+    /** Inserta un nuevo conductor usando el procedimiento almacenado */
+    public boolean insertarConductor(ConductorVista c) {
+        String sql = "{CALL [VLADIMIRJON].[Terminal_Quito].dbo.InsertarConductor(?, ?, ?, ?, ?)}";
+        try (Connection cn = ConexionBD.conectar();
+             CallableStatement cs = cn.prepareCall(sql)) {
                 
+            cs.setInt(1, c.getCodConductor());     // @cod_conductor
+            cs.setInt(2, c.getCodTerminal());      // @cod_terminal
+            cs.setString(3, c.getCedulaConductor());// @cedula_conductor
+            cs.setString(4, c.getNombreConductor());// @nombre_conductor
+            cs.setString(5, c.getApellidoConductor());// @apellido_conductor
 
-//                 cs.execute();
-//                 int filasAfectadas = cs.getUpdateCount();
-//                 return filasAfectadas > 0;
-           
-//         }
-//     }
+            cs.execute();
+            return true;
+        } catch (SQLException e) {
+            System.err.println("Error insertarConductor(): " + e.getMessage());
+            return false;
+        }
+    }
 
+    /** Actualiza un conductor existente */
+    public boolean actualizarConductor(ConductorVista c,
+                                        Integer codTerminalNuevo, // null si no cambia
+                                        String cedulaNueva) {     // null si no cambia
+        String sql = "{CALL [VLADIMIRJON].[Terminal_Quito].dbo.ActualizarConductor(?, ?, ?, ?, ?)}";
+        try (Connection cn = ConexionBD.conectar();
+             CallableStatement cs = cn.prepareCall(sql)) {
 
+            cs.setInt(1, c.getCodConductor());
+            cs.setString(2, c.getNombreConductor());   // puede ser null
+            cs.setString(3, c.getApellidoConductor()); // puede ser null
+            if (codTerminalNuevo != null) {
+                cs.setInt(4, codTerminalNuevo);
+            } else {
+                cs.setNull(4, java.sql.Types.INTEGER);
+            }
+            if (cedulaNueva != null) {
+                cs.setString(5, cedulaNueva);
+            } else {
+                cs.setNull(5, java.sql.Types.VARCHAR);
+            }
 
-//  public boolean eliminarConductor(int codConductor, String ciudad) throws SQLException {
-//         String sql;
-//         switch (ciudad.toLowerCase()) {
-//             case "ibarra":
-//                 sql = "DELETE FROM Conductor_Ibarra WHERE cod_conductor = ?";
-//                 break;
-//             case "quito":
-//                 sql = "DELETE FROM [VLADIMIRJON].[Terminal_Quito].[dbo].[Conductor_Quito] WHERE cod_conductor = ?";
-//                 break;
-//             default:
-//                 throw new IllegalArgumentException("Ciudad no reconocida: " + ciudad);
-//         }
+            cs.execute();
+            return true;
+        } catch (SQLException e) {
+            System.err.println("Error actualizarConductor(): " + e.getMessage());
+            return false;
+        }
+    }
 
-//         try (Connection cn = ConexionBD.conectar();
-//              PreparedStatement ps = cn.prepareStatement(sql)) {
+    /** Elimina un conductor por su código */
+    public boolean eliminarConductor(int codConductor) {
+        String sql = "{CALL [VLADIMIRJON].[Terminal_Quito].dbo.EliminarConductor(?)}";
+        try (Connection cn = ConexionBD.conectar();
+             CallableStatement cs = cn.prepareCall(sql)) {
 
-//             ps.setInt(1, codConductor);
-//             int filasAfectadas = ps.executeUpdate();
-//             return filasAfectadas > 0;
-//         }
-//     }
-// }
+            cs.setInt(1, codConductor);
 
-
+            cs.execute();
+            return true;
+        } catch (SQLException e) {
+            System.err.println("Error eliminarConductor(): " + e.getMessage());
+            return false;
+        }
+    }
+}

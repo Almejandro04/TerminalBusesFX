@@ -23,4 +23,8 @@ public class RutaVistaService {
     public List<RutaVista> obtenerTodasLasRutas(String ciudad) {
         return dao.obtenerTodasLasRutas(ciudad);
     }
+
+    public List<RutaVista> obtenerRutasPorUsuario(String ciudad) {
+        return dao.obtenerTodasLasRutas(ciudad);
+    }
 }

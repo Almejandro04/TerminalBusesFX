@@ -161,3 +161,176 @@
 //         stage.close();
 //     }
 // }
+
+package com.mycompany.terminalbusesfx;
+
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import com.mycompany.terminalbusesBLL.BoletoVistaService;
+import com.mycompany.terminalbusesBLL.ConductorVistaService;
+import com.mycompany.terminalbusesBLL.PasajeroVistaService;
+import com.mycompany.terminalbusesBLL.TerminalVistaService;
+import com.mycompany.terminalbusesBLL.VehiculoVistaService;
+import com.mycompany.terminalbusesDAL.BoletoVista;
+import com.mycompany.terminalbusesDAL.ConductorVista;
+import com.mycompany.terminalbusesDAL.PasajeroVista;
+import com.mycompany.terminalbusesDAL.TerminalVista;
+import com.mycompany.terminalbusesDAL.VehiculoVista;
+import com.mycompany.terminalbusesDAL.ViajeVista;
+
+import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+
+public class ViajeInformacionController implements Initializable {
+
+    // ------- Labels del encabezado -------
+    @FXML private Label lblTitulo;
+    @FXML private Label lblTerminal;    // Nombre (Ciudad)
+    @FXML private Label lblConductor;   // Nombre y Apellido
+    @FXML private Label lblBus;         // Placa
+    @FXML private Label lblRuta;        // Ciudad destino + precio
+    @FXML private Label lblFechaHora;   // Fecha y hora
+
+    // ------- Tabla de pasajeros -------
+    @FXML private TableView<PasajeroVista> tblPasajeros;
+    @FXML private TableColumn<PasajeroVista, String>  colPasCedula;
+    @FXML private TableColumn<PasajeroVista, String>  colPasNombre;
+    @FXML private TableColumn<PasajeroVista, String>  colPasApellido;
+    @FXML private TableColumn<PasajeroVista, Integer> colPasTelefono;
+    @FXML private TableColumn<PasajeroVista, String>  colPasCorreo;
+
+    @FXML private Button btnCerrar;
+
+    // ------- Estado -------
+    private String ciudadUsuario; // "QUITO" o "IBARRA"
+    private ViajeVista viaje;
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        // Mapeo de columnas (usa los nombres exactos de tu modelo PasajeroVista)
+        colPasCedula  .setCellValueFactory(new PropertyValueFactory<>("cedulaPasajero"));
+        colPasNombre  .setCellValueFactory(new PropertyValueFactory<>("nombrePasajero"));
+        colPasApellido.setCellValueFactory(new PropertyValueFactory<>("apellidoPasajero"));
+        colPasTelefono.setCellValueFactory(new PropertyValueFactory<>("telefonoPasajero"));
+        colPasCorreo  .setCellValueFactory(new PropertyValueFactory<>("correoPasajero"));
+    }
+
+    public void setCiudadUsuario(String ciudad) {
+        this.ciudadUsuario = ciudad;
+    }
+
+    public void setViaje(ViajeVista v) {
+        this.viaje = v;
+        lblTitulo.setText("Detalle Del Viaje #" + v.getCodViaje());
+
+        // 1) Terminal
+        TerminalVistaService tvs = new TerminalVistaService();
+        TerminalVista terminal = tvs.obtenerTodosLosTerminales()
+                .stream()
+                .filter(t -> t.getCodTerminal() == v.getCodTerminal())
+                .findFirst().orElse(null);
+        if (terminal != null) {
+            lblTerminal.setText(terminal.getNombreTerminal() + " (" + terminal.getCiudadTerminal() + ")");
+        } else {
+            lblTerminal.setText("Terminal #" + v.getCodTerminal());
+        }
+
+        // 2) Conductor (desde vista filtrada por ciudad)
+        ConductorVistaService cvs = new ConductorVistaService();
+        ConductorVista cond = cvs.obtenerConductoresPorUsuario(ciudadUsuario)
+                .stream()
+                .filter(c -> c.getCodConductor() == v.getCodConductor())
+                .findFirst().orElse(null);
+        lblConductor.setText(
+            cond != null
+                ? cond.getNombreConductor() + " " + cond.getApellidoConductor()
+                : "Conductor #" + v.getCodConductor()
+        );
+
+        // 3) Bus (placa). ViajeVista suele traer 'placa'; si no, intenta localizar por codVehiculo
+        String placa = null;
+        try {
+            // si tu ViajeVista tiene getPlaca()
+            placa = (String) ViajeVista.class.getMethod("getPlaca").invoke(v);
+        } catch (Exception ignore) { /* no tiene getPlaca, intentamos por servicio */ }
+
+        if (placa == null) {
+            VehiculoVistaService vvs = new VehiculoVistaService();
+            VehiculoVista bus = vvs.obtenerVehiculosPorUsuario(ciudadUsuario)
+                    .stream()
+                    .filter(b -> {
+                        try {
+                            // si tu ViajeVista tiene getCodVehiculo()
+                            Integer codVeh = (Integer) ViajeVista.class.getMethod("getCodVehiculo").invoke(v);
+                            // OJO: si tu modelo VehiculoVista no tiene codVehiculo, ignora este bloque
+                            return false; // ajusta si trabajas con ID de bus distinto a placa
+                        } catch (Exception e) { return false; }
+                    })
+                    .findFirst().orElse(null);
+            if (bus != null) placa = bus.getPlacaVehiculo();
+        }
+        lblBus.setText(placa != null ? placa : "-");
+
+        // Ruta: solo número (cod_ruta)
+        String rutaTxt = "-";
+        try {
+            rutaTxt = String.valueOf(viaje.getCodRuta()); // ViajeVista debe tener getCodRuta()
+        } catch (Exception ignore) {
+            // (opcional) fallback si hiciera falta buscarla por servicio
+            // RutaVistaService rvs = new RutaVistaService();
+            // RutaVista r = rvs.obtenerRutasPorUsuario(ciudadUsuario)
+            //                  .stream().filter(x -> x.getCodRuta() == viaje.getCodRuta())
+            //                  .findFirst().orElse(null);
+            // if (r != null) rutaTxt = String.valueOf(r.getCodRuta());
+        }
+        lblRuta.setText(rutaTxt);
+
+        // 5) Fecha y hora
+        String fechaHora = "";
+        try { fechaHora += v.getFechaViaje(); } catch (Exception ignore) {}
+        try { fechaHora += (fechaHora.isEmpty() ? "" : " ") + v.getHoraViaje(); } catch (Exception ignore) {}
+        lblFechaHora.setText(fechaHora.isEmpty() ? "-" : fechaHora);
+
+        // 6) Pasajeros del viaje (vía BOLETO)
+        cargarPasajerosDelViaje();
+    }
+
+    private void cargarPasajerosDelViaje() {
+        if (viaje == null || ciudadUsuario == null) return;
+
+        // a) Obtener boletos de la ciudad y filtrar por codViaje
+        BoletoVistaService bsvc = new BoletoVistaService();
+        List<BoletoVista> boletosCiudad = bsvc.obtenerBoletosPorUsuario(ciudadUsuario);
+        Set<String> cedulasDeEsteViaje = boletosCiudad.stream()
+                .filter(b -> b.getCodViaje() == viaje.getCodViaje())
+                .map(BoletoVista::getCedulaPasajero)
+                .collect(Collectors.toSet());
+
+        // b) Obtener pasajeros de la ciudad y filtrar por cédulas de esos boletos
+        PasajeroVistaService psvc = new PasajeroVistaService();
+        List<PasajeroVista> pasajerosCiudad = psvc.obtenerPasajerosPorUsuario();
+        List<PasajeroVista> pasajerosDelViaje = pasajerosCiudad.stream()
+                .filter(p -> cedulasDeEsteViaje.contains(p.getCedulaPasajero()))
+                .collect(Collectors.toList());
+
+        // c) Cargar en la tabla
+        tblPasajeros.setItems(FXCollections.observableArrayList(pasajerosDelViaje));
+    }
+
+    @FXML
+    private void handleCerrar(ActionEvent event) {
+        ((Stage) btnCerrar.getScene().getWindow()).close();
+    }
+}

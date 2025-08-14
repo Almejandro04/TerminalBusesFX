@@ -4,7 +4,7 @@ public class RutaVista {
     private int codTerminal;
     private int codRuta;
     private String ciudadDestino;
-    private double precio;
+    private Double precio;
 
     public RutaVista(int codTerminal, int codRuta, String ciudadDestino, double precio) {
         this.codTerminal = codTerminal;
@@ -37,13 +37,8 @@ public class RutaVista {
         this.ciudadDestino = ciudadDestino;
     }
 
-    public double getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(double precio) {
-        this.precio = precio;
-    }
+  public Double getPrecio() { return precio; }
+public void setPrecio(Double precio) { this.precio = precio; }
 
     @Override
     public String toString() {

@@ -1,47 +1,24 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.terminalbusesBLL;
-import java.sql.SQLException;
 
 import com.mycompany.terminalbusesDAL.ViajeProcedimientoDAO;
 import com.mycompany.terminalbusesDAL.ViajeVista;
 
-
-/**
- *
- * @author Jorge
- */
 public class ViajeProcedimientoService {
-    // ➡ Aquí usa el DAO correcto
+
     private final ViajeProcedimientoDAO dao = new ViajeProcedimientoDAO();
 
-    public int crearViaje(ViajeVista viaje, String ciudad) {
-        try {
-            //return dao.insertarViajeCompleto(viaje); 
-            return dao.insertarViajeCompleto(viaje, ciudad);
-        } catch (SQLException e) {
-            throw new RuntimeException("Error al crear viaje", e);
-        }
+    /** Ingresar viaje */
+    public boolean crearViaje(ViajeVista v) {
+        return dao.insertarViaje(v);
     }
 
-
-    public boolean borrarViaje(int codViaje, String ciudad) {
-    try {
-        return dao.eliminarViaje(codViaje, ciudad);
-    } catch (SQLException e) {
-        throw new RuntimeException("Error al borrar viaje", e);
+    /** Actualizar viaje (deja null/0 en campos que no quieras modificar) */
+    public boolean actualizarViaje(ViajeVista v) {
+        return dao.actualizarViaje(v);
     }
-}    /** Actualiza un viaje existente */
-    
-public boolean actualizarViaje(ViajeVista v, String ciudad) {
-        try {
-            dao.actualizarViajeCompleto(v, ciudad);
-            return true;
-        } catch (SQLException e) {
-            throw new RuntimeException("Error al actualizar viaje", e);
-        }
+
+    /** Borrar viaje por (terminal, cod_viaje) */
+    public boolean borrarViaje(int codTerminal, int codViaje) {
+        return dao.eliminarViaje(codTerminal, codViaje);
     }
 }
-

@@ -1,39 +1,24 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.terminalbusesBLL;
 
-/**
- *
- * @author Jorge
- */
+import com.mycompany.terminalbusesDAL.PasajeroProcedimientoDAO;
+import com.mycompany.terminalbusesDAL.PasajeroVista;
+
 public class PasajeroProcedimientoService {
-        // ➡ Aquí usa el DAO correcto
-    // private final PasajeroProcedimientoDAO dao = new PasajeroProcedimientoDAO();
 
-    // public int crearPasajero(PasajeroVista pasajero, String ciudad) {
-    //     try {
-    //         //return dao.insertarViajeCompleto(viaje); 
-    //         return dao.insertarPasajeroCompleto(pasajero, ciudad);
-    //     } catch (SQLException e) {
-    //         throw new RuntimeException("Error al crear pasajero", e);
-    //     }
-    // }
+    private final PasajeroProcedimientoDAO dao = new PasajeroProcedimientoDAO();
 
-    //     public boolean borrarPasajero(int codPasajero, String ciudad) {
-    //     try {
-    //         return dao.eliminarPasajero(codPasajero, ciudad);
-    //     } catch (SQLException e) {
-    //         throw new RuntimeException("Error al borrar pasajero", e);
-    //     }
-    // }
+    /** Ingresar */
+    public boolean crearPasajero(PasajeroVista p) {
+        return dao.insertarPasajero(p);
+    }
 
-    //     public boolean actualizarPasajero(PasajeroVista p, String ciudad) {
-    //     try {
-    //         return dao.actualizarPasajeroCompleto(p, ciudad);
-    //     } catch (SQLException e) {
-    //         throw new RuntimeException("Error al actualizar pasajero", e);
-    //     }
-    // }
+    /** Actualizar (deja en null los campos que no quieras modificar) */
+    public boolean actualizarPasajero(PasajeroVista p) {
+        return dao.actualizarPasajero(p);
+    }
+
+    /** Borrar por cédula */
+    public boolean borrarPasajero(String cedulaPasajero) {
+        return dao.eliminarPasajero(cedulaPasajero);
+    }
 }

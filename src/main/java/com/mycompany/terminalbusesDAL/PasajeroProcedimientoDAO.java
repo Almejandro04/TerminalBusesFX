@@ -1,100 +1,65 @@
-// /*
-//  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-//  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
-//  */
-// package com.mycompany.terminalbusesDAL;
-// import java.sql.CallableStatement;
-// import java.sql.Connection;
-// import java.sql.PreparedStatement;
-// import java.sql.SQLException;
-// /**
-//  *
-//  * @author Jorge
-//  */
-// public class PasajeroProcedimientoDAO {
-//     public int insertarPasajeroCompleto(PasajeroVista p, String ciudad) throws SQLException {
-//         String sql;
-//         switch (ciudad.toLowerCase()) {
-//             case "ibarra":
-//                 sql = "{ CALL dbo.InsertarPasajeroCompleto(?, ?, ?, ?, ?, ?, ?) }";
-//                 break;
-//             case "quito":
-//                 sql = "{ CALL [VLADIMIRJON].[Terminal_Quito].[dbo].[InsertarPasajeroCompleto](?, ?, ?, ?, ?, ?, ?) }";
-//                 break;
-//             default:
-//                 throw new IllegalArgumentException("Ciudad no reconocida: " + ciudad);
-//         }
-//         try (Connection cn = ConexionBD.conectar();
-//              CallableStatement cs = cn.prepareCall(sql)) {
-//                 cs.setInt(1, p.getCodViaje());
-//                 cs.setString(2, p.getNombrePasajero());
-//                 cs.setString(3, p.getApellidoPasajero());
-//                 cs.setString(4, p.getCedulaPasajero());
-//                 cs.setString(5, p.getTelefonoPasajero());
-//                 cs.setString(6, p.getCorreoPasajero());
-//                 cs.registerOutParameter(7, java.sql.Types.INTEGER);
-//                 cs.execute();
-//             return cs.getInt(7);
-//         }
-//     }
+package com.mycompany.terminalbusesDAL;
 
-    
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.SQLException;
 
-//  public boolean eliminarPasajero(int codPasajero, String ciudad) throws SQLException {
-//         String sql;
-//         switch (ciudad.toLowerCase()) {
-//             case "ibarra":
-//                 sql = "{ CALL dbo.EliminarPasajeroCompleto(?) }";
-//                 break;
-//             case "quito":
-//                 sql = "{ CALL [VLADIMIRJON].[Terminal_Quito].[dbo].[EliminarPasajeroCompleto](?) }";
-//                 break;
-//             default:
-//                 throw new IllegalArgumentException("Ciudad no reconocida: " + ciudad);
-//         }
+public class PasajeroProcedimientoDAO {
 
-//         try (Connection cn = ConexionBD.conectar();
-//              PreparedStatement ps = cn.prepareStatement(sql)) {
+    /** Inserta un pasajero */
+    public boolean insertarPasajero(PasajeroVista p) {
+        String sql = "{CALL dbo.InsertarPasajero(?, ?, ?, ?, ?, ?)}";
+        try (Connection cn = ConexionBD.conectar();
+             CallableStatement cs = cn.prepareCall(sql)) {
 
-//             ps.setInt(1, codPasajero);
-//             int filas = ps.executeUpdate();
-//             return filas > 0;
-//         }catch (SQLException e) {
-//             System.out.println("Error SQL al borrar pasajero: " + e.getMessage());
-//             e.printStackTrace();  // Esto mostrará el error completo en consola
-//             throw new SQLException("No se pudo borrar el pasajero.");
-//         }
-//     }
+            cs.setString(1, p.getCedulaPasajero());
+            cs.setString(2, p.getNombrePasajero());
+            cs.setString(3, p.getApellidoPasajero());
+            cs.setString(4, p.getTelefonoPasajero());
+            cs.setString(5, p.getCorreoPasajero());
+            cs.setNull(6, java.sql.Types.VARCHAR); // rowguid → lo genera el SP si es null
 
+            cs.execute();
+            return true;
+        } catch (SQLException e) {
+            System.err.println("Error insertarPasajero(): " + e.getMessage());
+            return false;
+        }
+    }
 
-//      public boolean actualizarPasajeroCompleto(PasajeroVista p, String ciudad) throws SQLException {
-//         String sql;
-//         switch (ciudad.toLowerCase()) {
-//             case "ibarra":
-//                 sql = "{ CALL dbo.ActualizarPasajeroCompleto(?, ?, ?, ?, ?, ?, ?) }";
-//                 break;
-//             case "quito":
-//                 sql = "{ CALL [VLADIMIRJON].[Terminal_Quito].[dbo].[ActualizarPasajeroCompleto](?, ?, ?, ?, ?, ?, ?) }";
-//                 break;
-//             default:
-//                 throw new IllegalArgumentException("Ciudad no reconocida: " + ciudad);
-//         }
+    /** Actualiza un pasajero existente */
+    public boolean actualizarPasajero(PasajeroVista p) {
+        String sql = "{CALL dbo.ActualizarPasajero(?, ?, ?, ?, ?)}";
+        try (Connection cn = ConexionBD.conectar();
+             CallableStatement cs = cn.prepareCall(sql)) {
 
-//         try (Connection cn = ConexionBD.conectar();
-//              CallableStatement cs = cn.prepareCall(sql)) {
+            cs.setString(1, p.getCedulaPasajero());
+            cs.setString(2, p.getNombrePasajero());   // puede ser null
+            cs.setString(3, p.getApellidoPasajero()); // puede ser null
+            cs.setString(4, p.getTelefonoPasajero()); // puede ser null
+            cs.setString(5, p.getCorreoPasajero());   // puede ser null
 
-//             cs.setInt(1, p.getCodPasajero());
-//             cs.setInt(2, p.getCodViaje());
-//             cs.setString(3, p.getNombrePasajero());
-//             cs.setString(4, p.getApellidoPasajero());
-//             cs.setString(5, p.getCedulaPasajero());
-//             cs.setString(6, p.getTelefonoPasajero());
-//             cs.setString(7, p.getCorreoPasajero());
+            cs.execute();
+            return true;
+        } catch (SQLException e) {
+            System.err.println("Error actualizarPasajero(): " + e.getMessage());
+            return false;
+        }
+    }
 
-//             cs.execute();            // <<-- ejecuta el SP, no nos importa el row-count
-//             return true;    
-//         }
-//     }
-// }
+    /** Elimina un pasajero por cédula */
+    public boolean eliminarPasajero(String cedulaPasajero) {
+        String sql = "{CALL dbo.EliminarPasajero(?)}";
+        try (Connection cn = ConexionBD.conectar();
+             CallableStatement cs = cn.prepareCall(sql)) {
 
+            cs.setString(1, cedulaPasajero);
 
+            cs.execute();
+            return true;
+        } catch (SQLException e) {
+            System.err.println("Error eliminarPasajero(): " + e.getMessage());
+            return false;
+        }
+    }
+}

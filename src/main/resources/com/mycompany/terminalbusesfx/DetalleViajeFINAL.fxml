@@ -145,7 +145,7 @@
                            <center>
                               <TableView fx:id="tblBoletos" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: #A3C7E4; -fx-border-width: 1;" BorderPane.alignment="CENTER">
                                  <columns>
-                                    <TableColumn fx:id="colTerminalBoleto" prefWidth="60.80004119873047" text="Cod_Viaje" />
+                                    <TableColumn fx:id="colTerminalBoleto" prefWidth="60.80004119873047" text="Cod_Terminal" />
                                     <TableColumn fx:id="colViajeBoleto" prefWidth="60.80004119873047" text="Cod_Viaje" />
                                     <TableColumn fx:id="colCedulaBoleto" prefWidth="75.0" text="Cédula" />
                                     <TableColumn fx:id="colAsientoBoleto" prefWidth="89.5999755859375" text="# Asiento" />

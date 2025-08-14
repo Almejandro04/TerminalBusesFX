@@ -29,11 +29,10 @@
         </columnConstraints>
         <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Label text="Terminal:">
@@ -41,37 +40,31 @@
                   <Font name="System Bold Italic" size="12.0" />
                </font>
             </Label>
-            <Label text="Destino:" GridPane.rowIndex="1">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <Label text="Fecha/Hora:" GridPane.rowIndex="2">
+            <Label text="Fecha/Hora:" GridPane.rowIndex="4">
                <font>
                   <Font name="System Bold Italic" size="12.0" />
                </font>
             </Label>
-            <Label text="Precio:" GridPane.rowIndex="3">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <Label text="Conductor:" GridPane.rowIndex="4">
+            <Label text="Conductor:" GridPane.rowIndex="1">
                <font>
                   <Font name="System Bold Italic" size="12.0" />
                </font>
             </Label>
-            <Label text="Bus:" GridPane.rowIndex="5">
+            <Label text="Placa Bus:" GridPane.rowIndex="2">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label fx:id="lblOrigen" text="Label" GridPane.columnIndex="1" />
-            <Label fx:id="lblDestino" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label fx:id="lblFechaHora" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label fx:id="lblPrecio" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label fx:id="lblConductor" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <Label fx:id="lblBus" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Label fx:id="lblTerminal" text="Label" GridPane.columnIndex="1" />
+            <Label fx:id="lblFechaHora" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label fx:id="lblConductor" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label fx:id="lblBus" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label text="Ruta:" GridPane.rowIndex="3">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblRuta" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>
       </GridPane>
       <Label text="Pasajeros">

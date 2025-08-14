@@ -1,104 +1,94 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
-
-/**
- *
- * @author Jorge
- */
-
 package com.mycompany.terminalbusesDAL;
-import java.math.BigDecimal;
+
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Types;
 
-/**  
- * DAO que ejecuta el procedimiento almacenado InsertarViajeCompleto  
- */
 public class ViajeProcedimientoDAO {
 
-    public int insertarViajeCompleto(ViajeVista v, String ciudad) throws SQLException {
-        String procedimiento = "";
-        switch (ciudad.toLowerCase()) {
-            case "ibarra":
-                procedimiento = "{ CALL dbo.InsertarViajeCompleto(?, ?, ?, ?, ?, ?, ?, ?) }";
-                break;
-            case "quito":
-                // Si el SP está en la base de Vladimirjon usa el nombre completo
-                procedimiento = "{ CALL [VLADIMIRJON].[Terminal_Quito].[dbo].[InsertarViajeCompleto](?, ?, ?, ?, ?, ?, ?, ?) }";
-                break;
-            default:
-                throw new IllegalStateException("Ciudad de usuario desconocida: " + ciudad);
-        }
+    /** Inserta un viaje usando el SP actual */
+    public boolean insertarViaje(ViajeVista v) {
+        String sql = "{CALL [VLADIMIRJON].[Terminal_Quito].dbo.InsertarViaje(?, ?, ?, ?, ?, ?, ?)}";
         try (Connection cn = ConexionBD.conectar();
-             CallableStatement cs = cn.prepareCall(procedimiento)) {
-            cs.setInt   (1, v.getCodVehiculo());
-            cs.setInt   (2, v.getCodConductor());
-            cs.setInt   (3, v.getCodTerminal());
-            cs.setString(4, v.getCiudadDestino());
-            cs.setBigDecimal(5, java.math.BigDecimal.valueOf(v.getPrecioViaje()));
-            cs.setTime  (6, java.sql.Time.valueOf(v.getHoraViaje()));
-            cs.setDate  (7, java.sql.Date.valueOf(v.getFechaViaje()));
-            cs.registerOutParameter(8, Types.INTEGER);
+             CallableStatement cs = cn.prepareCall(sql)) {
+
+            cs.setInt(1, v.getCodTerminal());
+            cs.setInt(2, v.getCodViaje());
+            cs.setString(3, v.getPlaca());
+            cs.setInt(4, v.getCodRuta());
+            cs.setInt(5, v.getCodConductor());
+            cs.setDate(6, java.sql.Date.valueOf(v.getFechaViaje()));
+            cs.setTime(7, java.sql.Time.valueOf(v.getHoraViaje()));
+
             cs.execute();
-            return cs.getInt(8);
+            return true;
+        } catch (SQLException e) {
+            System.err.println("Error insertarViaje(): " + e.getMessage());
+            return false;
         }
     }
-    
-    
-    public boolean eliminarViaje(int codViaje, String ciudad) throws SQLException {
-    String sql;
-    switch (ciudad.toLowerCase()) {
-        case "ibarra":
-            sql = "{ CALL dbo.EliminarViajeCompleto(?) }";
-            break;
-        case "quito":
-            sql = "{ CALL [VLADIMIRJON].[Terminal_Quito].[dbo].[EliminarViajeCompleto](?) }";
-            break;
-        default:
-            throw new IllegalArgumentException("Ciudad no reconocida: " + ciudad);
-    }
 
-    try (Connection cn = ConexionBD.conectar();
-         PreparedStatement ps = cn.prepareStatement(sql)) {
-        ps.setInt(1, codViaje);
-        int filas = ps.executeUpdate();
-        return filas > 0;
-    }
-}
-
-public void actualizarViajeCompleto(ViajeVista v, String ciudad) throws SQLException {
-        String procedimiento;
-        switch (ciudad.toLowerCase()) {
-            case "ibarra":
-                procedimiento = "{ CALL dbo.ActualizarViajeCompleto(?, ?, ?, ?, ?, ?, ?, ?) }";
-                break;
-            case "quito":
-                procedimiento = "{ CALL [VLADIMIRJON].[Terminal_Quito].[dbo].[ActualizarViajeCompleto](?, ?, ?, ?, ?, ?, ?, ?) }";
-                break;
-            default:
-                throw new IllegalStateException("Ciudad de usuario desconocida: " + ciudad);
-        }
-
+    /** Actualiza un viaje usando el SP actual */
+    public boolean actualizarViaje(ViajeVista v) {
+        String sql = "{CALL [VLADIMIRJON].[Terminal_Quito].dbo.ActualizarViaje(?, ?, ?, ?, ?, ?, ?)}";
         try (Connection cn = ConexionBD.conectar();
-             CallableStatement cs = cn.prepareCall(procedimiento)) {
+             CallableStatement cs = cn.prepareCall(sql)) {
 
-            cs.setInt      (1, v.getCodViaje());
-            cs.setInt      (2, v.getCodVehiculo());
-            cs.setInt      (3, v.getCodConductor());
-            cs.setInt      (4, v.getCodTerminal());
-            cs.setString   (5, v.getCiudadDestino());
-            cs.setBigDecimal(6, BigDecimal.valueOf(v.getPrecioViaje()));
-            cs.setDate     (7, java.sql.Date.valueOf(v.getFechaViaje()));
-            cs.setTime     (8, java.sql.Time.valueOf(v.getHoraViaje()));
+            cs.setInt(1, v.getCodTerminal());
+            cs.setInt(2, v.getCodViaje());
 
-            cs.execute();  // si no lanza excepción, asumimos éxito
+            if (v.getPlaca() != null) {
+                cs.setString(3, v.getPlaca());
+            } else {
+                cs.setNull(3, java.sql.Types.VARCHAR);
+            }
+
+            if (v.getCodRuta() != 0) {
+                cs.setInt(4, v.getCodRuta());
+            } else {
+                cs.setNull(4, java.sql.Types.INTEGER);
+            }
+
+            if (v.getCodConductor() != 0) {
+                cs.setInt(5, v.getCodConductor());
+            } else {
+                cs.setNull(5, java.sql.Types.INTEGER);
+            }
+
+            if (v.getFechaViaje() != null) {
+                cs.setDate(6, java.sql.Date.valueOf(v.getFechaViaje()));
+            } else {
+                cs.setNull(6, java.sql.Types.DATE);
+            }
+
+            if (v.getHoraViaje() != null) {
+                cs.setTime(7, java.sql.Time.valueOf(v.getHoraViaje()));
+            } else {
+                cs.setNull(7, java.sql.Types.TIME);
+            }
+
+            cs.execute();
+            return true;
+        } catch (SQLException e) {
+            System.err.println("Error actualizarViaje(): " + e.getMessage());
+            return false;
         }
     }
 
+    /** Elimina un viaje usando el SP actual */
+    public boolean eliminarViaje(int codTerminal, int codViaje) {
+        String sql = "{CALL [VLADIMIRJON].[Terminal_Quito].dbo.EliminarViaje(?, ?)}";
+        try (Connection cn = ConexionBD.conectar();
+             CallableStatement cs = cn.prepareCall(sql)) {
+
+            cs.setInt(1, codTerminal);
+            cs.setInt(2, codViaje);
+
+            cs.execute();
+            return true;
+        } catch (SQLException e) {
+            System.err.println("Error eliminarViaje(): " + e.getMessage());
+            return false;
+        }
+    }
 }

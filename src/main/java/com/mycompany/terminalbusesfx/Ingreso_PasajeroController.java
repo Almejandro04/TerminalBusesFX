@@ -1,136 +1,107 @@
-// package com.mycompany.terminalbusesfx;
+package com.mycompany.terminalbusesfx;
 
-// import java.net.URL;
-// import java.util.ResourceBundle;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-// import com.mycompany.terminalbusesBLL.PasajeroProcedimientoService;
-// import com.mycompany.terminalbusesBLL.ViajeVistaService;
-// import com.mycompany.terminalbusesDAL.PasajeroVista;
-// import com.mycompany.terminalbusesDAL.ViajeVista;
+import com.mycompany.terminalbusesBLL.PasajeroProcedimientoService;
+import com.mycompany.terminalbusesDAL.PasajeroVista;
 
-// import javafx.collections.FXCollections;
-// import javafx.event.ActionEvent;
-// import javafx.fxml.FXML;
-// import javafx.fxml.Initializable;
-// import javafx.scene.Node;
-// import javafx.scene.control.Alert;
-// import javafx.scene.control.Button;
-// import javafx.scene.control.ComboBox;
-// import javafx.scene.control.ListCell;
-// import javafx.scene.control.TextField;
-// import javafx.stage.Stage;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
+import javafx.stage.Stage;
 
-// public class Ingreso_PasajeroController implements Initializable {
-    
-//     @FXML private ComboBox<ViajeVista> cbViajePasajero;
-//     @FXML private Button btnGuardar;
-//     @FXML private Button btnCancelar;
-//     @FXML private TextField tfNombre;
-//     @FXML private TextField tfApellido;
-//     @FXML private TextField tfTelefono;
-//     @FXML private TextField tfCedula, tfCorreo;
+public class Ingreso_PasajeroController implements Initializable {
 
-//     @FXML private String ciudadUsuario;
-//     @FXML private boolean saved = false;
-//     @FXML private int newCodPasajero;
-//     @FXML private TextField tfLicencia;
-//     @FXML private TextField tfCodigo;
+    @FXML private TextField tfCedula;
+    @FXML private TextField tfNombre;
+    @FXML private TextField tfApellido;
+    @FXML private TextField tfTelefono;
+    @FXML private TextField tfCorreo;
+    @FXML private Button    btnGuardar, btnCancelar;
 
-//     /**
-//      * Este setter **solo** asigna la ciudad** y luego puebla el ComboBox.
-//      * Asegúrate de llamarlo **una vez** desde quien abra esta ventana, antes de mostrarla.
-//      */
-//     public void setCiudadUsuario(String ciudad) {
-//         this.ciudadUsuario = ciudad.toLowerCase();
+    private String  ciudadUsuario;   // "QUITO" o "IBARRA" (no se usa para el SP)
+    private boolean saved = false;
 
-//         // Pobla los viajes **solo** después de asignar la ciudad
-//         cbViajePasajero.setItems(
-//             FXCollections.observableArrayList(
-//                 new ViajeVistaService()
-//                     .obtenerViajesPorUsuario(ciudadUsuario)
-//             )
-//         );
-//     }
+    public void setCiudadUsuario(String ciudad) {
+        this.ciudadUsuario = ciudad == null ? "" : ciudad.trim();
+    }
 
-//     @Override
-//     public void initialize(URL url, ResourceBundle rb) {
-//         // Asegúrate de llamar a setCiudadUsuario(...) DESPUÉS de initialize(), no aquí.
-//         // Configuramos la apariencia del ComboBox:
-//         cbViajePasajero.setCellFactory(lv -> new ListCell<ViajeVista>() {
-//             @Override
-//             protected void updateItem(ViajeVista v, boolean empty) {
-//                 super.updateItem(v, empty);
-//                 setText(empty || v == null 
-//                     ? null 
-//                     : String.valueOf(v.getCodViaje()));
-//             }
-//         });
-//         cbViajePasajero.setButtonCell(new ListCell<ViajeVista>() {
-//             @Override
-//             protected void updateItem(ViajeVista v, boolean empty) {
-//                 super.updateItem(v, empty);
-//                 setText(empty || v == null 
-//                     ? null 
-//                     : String.valueOf(v.getCodViaje()));
-//             }
-//         });
-//     }
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        // Cédula: solo dígitos, máx 10
+        tfCedula.setTextFormatter(new TextFormatter<>(c -> {
+            String s = c.getControlNewText();
+            return s.matches("\\d{0,10}") ? c : null;
+        }));
+        // Teléfono: solo dígitos, máx 10 (se mantiene como String)
+        tfTelefono.setTextFormatter(new TextFormatter<>(c -> {
+            String s = c.getControlNewText();
+            return s.matches("\\d{0,10}") ? c : null;
+        }));
+    }
 
-//       @FXML private void handleGuardar(ActionEvent e) {
-//         if (cbViajePasajero.getValue() == null ||
-//             tfNombre.getText().isBlank() ||
-//             tfApellido.getText().isBlank() ||
-//             tfTelefono.getText().isBlank() ||
-//             tfCedula.getText().isBlank() ||
-//             tfCorreo.getText().isBlank()) {
-//             new Alert(Alert.AlertType.WARNING,
-//                 "Complete todos los campos obligatorios."
-//             ).showAndWait();
-//             return;
-//         }
+    @FXML
+    private void handleGuardar(ActionEvent e) {
+        String cedula   = safe(tfCedula.getText());
+        String nombre   = safe(tfNombre.getText());
+        String apellido = safe(tfApellido.getText());
+        String telefono = safe(tfTelefono.getText()); // ← String (no int)
+        String correo   = safe(tfCorreo.getText());
 
-//         // PasajeroVista pasajero = new PasajeroVista(
-//         //     0,
-//         //     cbViajePasajero.getValue().getCodViaje(),
-//         //     tfNombre.getText(),
-//         //     tfApellido.getText(),
-//         //     tfTelefono.getText(),
-//         //     tfCedula.getText(),
-//         //     tfCorreo.getText()
-//         // );
+        // Validaciones mínimas
+        if (cedula.isEmpty() || nombre.isEmpty() || apellido.isEmpty() ||
+            telefono.isEmpty() || correo.isEmpty()) {
+            warn("Complete todos los campos.");
+            return;
+        }
+        if (!cedula.matches("\\d{10}")) {
+            warn("La cédula debe tener 10 dígitos.");
+            return;
+        }
+        if (!telefono.matches("\\d{7,10}")) { // ajusta el rango si lo necesitas
+            warn("Teléfono inválido (solo números, 7 a 10 dígitos).");
+            return;
+        }
+        // validación simple de correo
+        if (!correo.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) {
+            warn("Correo inválido.");
+            return;
+        }
 
-//         try {
-//             int id = new PasajeroProcedimientoService()
-//                         .crearPasajero(pasajero, ciudadUsuario);
-//             this.newCodPasajero = id;
-//             this.saved = true;
-//             ((Stage) btnGuardar.getScene().getWindow()).close();
-//         } catch (Exception ex) {
-//                    // 1) Imprime la traza completa en consola
-//         ex.printStackTrace();
+        // Construir DTO (cedula, nombre, apellido, telefono, correo)
+        PasajeroVista p = new PasajeroVista(cedula, nombre, apellido, telefono, correo);
 
-//         // 2) Extrae el mensaje real del SQL (causa de la RuntimeException)
-//         String detalle = ex.getCause() != null
-//             ? ex.getCause().getMessage()
-//             : ex.getMessage();
+        try {
+            // Service actual: un solo parámetro
+            boolean ok = new PasajeroProcedimientoService().crearPasajero(p);
+            if (!ok) {
+                error("No se pudo crear el pasajero.");
+                return;
+            }
+            saved = true;
+            ((Stage)((Node)e.getSource()).getScene().getWindow()).close();
 
-//         // 3) Muéstralo en la alerta
-//         new Alert(Alert.AlertType.ERROR,
-//             "Error al guardar pasajero:\n" + detalle
-//         ).showAndWait();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            error("Error al crear pasajero:\n" + ex.getMessage());
+        }
+    }
 
+    @FXML
+    private void handleCancelar(ActionEvent e) {
+        ((Stage)((Node)e.getSource()).getScene().getWindow()).close();
+    }
 
+    public boolean isSaved() { return saved; }
 
-
-//         }
-//     }
-
-
-//     @FXML
-//     private void handleCancelar(ActionEvent event) {
-//         ((Stage)((Node)event.getSource()).getScene().getWindow()).close();
-//     }
-
-//     public boolean isSaved() { return saved; }
-//     public int getNewCodPasajero() { return newCodPasajero; }
-// }
+    // Helpers
+    private static String safe(String s) { return s == null ? "" : s.trim(); }
+    private static void warn(String m) { new Alert(Alert.AlertType.WARNING, m).showAndWait(); }
+    private static void error(String m){ new Alert(Alert.AlertType.ERROR,   m).showAndWait(); }
+}
