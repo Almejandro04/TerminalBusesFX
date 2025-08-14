@@ -370,93 +370,234 @@ public class DetalleViajeFINALController implements Initializable {
         }
     }
 
-    @FXML
-    private void handleEditar(ActionEvent e) {
-        Tab selected = tabPane.getSelectionModel().getSelectedItem();
-        if (selected == tabTerminales) return;
+    // @FXML
+    // private void handleEditar(ActionEvent e) {
+    //     Tab selected = tabPane.getSelectionModel().getSelectedItem();
+    //     if (selected == tabTerminales) return;
 
-        String fxml = null, titulo = null;
-        Object seleccionado = null;
+    //     String fxml = null, titulo = null;
+    //     Object seleccionado = null;
+
+    //     if (selected == tabViajes) {
+    //         seleccionado = tblViajes.getSelectionModel().getSelectedItem();
+    //         if (seleccionado == null) { warn("Seleccione un viaje primero."); return; }
+    //         fxml = "/com/mycompany/terminalbusesfx/editar_Viaje.fxml";
+    //         titulo = "Editar Viaje";
+    //     } else if (selected == tabRutas) {
+    //         seleccionado = tblRutas.getSelectionModel().getSelectedItem();
+    //         if (seleccionado == null) { warn("Seleccione una ruta primero."); return; }
+    //         fxml = "/com/mycompany/terminalbusesfx/editar_Ruta.fxml";
+    //         titulo = "Editar Ruta";
+    //     } else if (selected == tabBoletos) {
+    //         seleccionado = tblBoletos.getSelectionModel().getSelectedItem();
+    //         if (seleccionado == null) { warn("Seleccione un boleto primero."); return; }
+    //         fxml = "/com/mycompany/terminalbusesfx/editar_Boleto.fxml";
+    //         titulo = "Editar Boleto";
+    //     } else if (selected == tabBuses) {
+    //         seleccionado = tblBuses.getSelectionModel().getSelectedItem();
+    //         if (seleccionado == null) { warn("Seleccione un bus primero."); return; }
+    //         fxml = "/com/mycompany/terminalbusesfx/editar_Bus.fxml";
+    //         titulo = "Editar Bus";
+    //     } else if (selected == tabConductores) {
+    //         seleccionado = tblConductores.getSelectionModel().getSelectedItem();
+    //         if (seleccionado == null) { warn("Seleccione un conductor primero."); return; }
+    //         fxml = "/com/mycompany/terminalbusesfx/editar_Conductor.fxml";
+    //         titulo = "Editar Conductor";
+    //     } else if (selected == tabPasajeros) {
+    //         seleccionado = tblPasajeros.getSelectionModel().getSelectedItem();
+    //         if (seleccionado == null) { warn("Seleccione un pasajero primero."); return; }
+    //         fxml = "/com/mycompany/terminalbusesfx/editar_Pasajero.fxml";
+    //         titulo = "Editar Pasajero";
+    //     }
+
+    //     if (fxml == null) {
+    //         System.err.println("No se encontró un FXML para esta pestaña");
+    //         return;
+    //     }
+
+    //     try {
+    //         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+    //         Parent root = loader.load();
+
+    //         if (selected == tabViajes) {
+    //             editar_ViajeController ctrl = loader.getController();
+    //             ctrl.setCiudadUsuario(currentUser);
+    //             ctrl.setViaje((ViajeVista) seleccionado);
+    //         } else if (selected == tabRutas) {
+    //             editar_RutaController ctrl = loader.getController();
+    //             ctrl.setCiudadUsuario(currentUser);
+    //             ctrl.setRuta((RutaVista) seleccionado);
+    //         } else if (selected == tabBoletos) {
+    //             editar_BoletoController ctrl = loader.getController();
+    //             ctrl.setCiudadUsuario(currentUser);
+    //             ctrl.setBoleto((BoletoVista) seleccionado);
+    //         } else if (selected == tabBuses) {
+    //             editar_BusController ctrl = loader.getController();
+    //             ctrl.setCiudadUsuario(currentUser);
+    //             ctrl.setBus((VehiculoVista) seleccionado);
+    //         } else if (selected == tabConductores) {
+    //             editar_ConductorController ctrl = loader.getController();
+    //             ctrl.setCiudadUsuario(currentUser);
+    //             ctrl.setConductor((ConductorVista) seleccionado);
+    //         } else if (selected == tabPasajeros) {
+    //             editar_PasajeroController ctrl = loader.getController();
+    //             ctrl.setCiudadUsuario(currentUser);
+    //             ctrl.setPasajero((PasajeroVista) seleccionado);
+    //         }
+
+    //         Stage st = new Stage();
+    //         st.setTitle(titulo);
+    //         st.initOwner(((Node) e.getSource()).getScene().getWindow());
+    //         st.initModality(Modality.APPLICATION_MODAL);
+    //         st.setScene(new Scene(root));
+    //         st.showAndWait();
+
+    //     } catch (IOException ex) {
+    //         ex.printStackTrace();
+    //         new Alert(Alert.AlertType.ERROR, "No se pudo cargar el formulario de edición:\n" + ex.getMessage()).showAndWait();
+    //     }
+    // }
+
+    @FXML
+private void handleEditar(ActionEvent e) {
+    Tab selected = tabPane.getSelectionModel().getSelectedItem();
+    if (selected == tabTerminales) return;
+
+    String fxml = null, titulo = null;
+    Object seleccionado = null;
+
+    if (selected == tabViajes) {
+        seleccionado = tblViajes.getSelectionModel().getSelectedItem();
+        if (seleccionado == null) { warn("Seleccione un viaje primero."); return; }
+        fxml = "/com/mycompany/terminalbusesfx/editar_Viaje.fxml";
+        titulo = "Editar Viaje";
+    } else if (selected == tabRutas) {
+        seleccionado = tblRutas.getSelectionModel().getSelectedItem();
+        if (seleccionado == null) { warn("Seleccione una ruta primero."); return; }
+        fxml = "/com/mycompany/terminalbusesfx/editar_Ruta.fxml";
+        titulo = "Editar Ruta";
+    } else if (selected == tabBoletos) {
+        seleccionado = tblBoletos.getSelectionModel().getSelectedItem();
+        if (seleccionado == null) { warn("Seleccione un boleto primero."); return; }
+        fxml = "/com/mycompany/terminalbusesfx/editar_Boleto.fxml";
+        titulo = "Editar Boleto";
+    } else if (selected == tabBuses) {
+        seleccionado = tblBuses.getSelectionModel().getSelectedItem();
+        if (seleccionado == null) { warn("Seleccione un bus primero."); return; }
+        fxml = "/com/mycompany/terminalbusesfx/editar_Bus.fxml";
+        titulo = "Editar Bus";
+    } else if (selected == tabConductores) {
+        seleccionado = tblConductores.getSelectionModel().getSelectedItem();
+        if (seleccionado == null) { warn("Seleccione un conductor primero."); return; }
+        fxml = "/com/mycompany/terminalbusesfx/editar_Conductor.fxml";
+        titulo = "Editar Conductor";
+    } else if (selected == tabPasajeros) {
+        seleccionado = tblPasajeros.getSelectionModel().getSelectedItem();
+        if (seleccionado == null) { warn("Seleccione un pasajero primero."); return; }
+        fxml = "/com/mycompany/terminalbusesfx/editar_Pasajero.fxml";
+        titulo = "Editar Pasajero";
+    }
+
+    if (fxml == null) {
+        System.err.println("No se encontró un FXML para esta pestaña");
+        return;
+    }
+
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+        Parent root = loader.load();
+
+        // Para ejecutar el refresh después del diálogo
+        java.util.function.BooleanSupplier savedFlag = () -> false;
+        Runnable recargarTabla = () -> {};
 
         if (selected == tabViajes) {
-            seleccionado = tblViajes.getSelectionModel().getSelectedItem();
-            if (seleccionado == null) { warn("Seleccione un viaje primero."); return; }
-            fxml = "/com/mycompany/terminalbusesfx/editar_Viaje.fxml";
-            titulo = "Editar Viaje";
+            editar_ViajeController ctrl = loader.getController();
+            ctrl.setCiudadUsuario(currentUser);
+            ctrl.setViaje((ViajeVista) seleccionado);
+            savedFlag = ctrl::isSaved;
+            recargarTabla = () -> {
+                var lista = new com.mycompany.terminalbusesBLL.ViajeVistaService()
+                        .obtenerViajesPorUsuario(currentUser);
+                tblViajes.setItems(FXCollections.observableArrayList(lista));
+                tblViajes.refresh();
+            };
         } else if (selected == tabRutas) {
-            seleccionado = tblRutas.getSelectionModel().getSelectedItem();
-            if (seleccionado == null) { warn("Seleccione una ruta primero."); return; }
-            fxml = "/com/mycompany/terminalbusesfx/editar_Ruta.fxml";
-            titulo = "Editar Ruta";
+            editar_RutaController ctrl = loader.getController();
+            ctrl.setCiudadUsuario(currentUser);
+            ctrl.setRuta((RutaVista) seleccionado);
+            savedFlag = ctrl::isSaved;
+            recargarTabla = () -> {
+                var lista = new com.mycompany.terminalbusesBLL.RutaVistaService()
+                        .obtenerTodasLasRutas(currentUser);
+                tblRutas.setItems(FXCollections.observableArrayList(lista));
+                tblRutas.refresh();
+            };
         } else if (selected == tabBoletos) {
-            seleccionado = tblBoletos.getSelectionModel().getSelectedItem();
-            if (seleccionado == null) { warn("Seleccione un boleto primero."); return; }
-            fxml = "/com/mycompany/terminalbusesfx/editar_Boleto.fxml";
-            titulo = "Editar Boleto";
+            editar_BoletoController ctrl = loader.getController();
+            ctrl.setCiudadUsuario(currentUser);
+            ctrl.setBoleto((BoletoVista) seleccionado);
+            savedFlag = ctrl::isSaved;
+            recargarTabla = () -> {
+                var lista = new com.mycompany.terminalbusesBLL.BoletoVistaService()
+                        .obtenerBoletosPorUsuario(currentUser);
+                tblBoletos.setItems(FXCollections.observableArrayList(lista));
+                tblBoletos.refresh();
+            };
         } else if (selected == tabBuses) {
-            seleccionado = tblBuses.getSelectionModel().getSelectedItem();
-            if (seleccionado == null) { warn("Seleccione un bus primero."); return; }
-            fxml = "/com/mycompany/terminalbusesfx/editar_Bus.fxml";
-            titulo = "Editar Bus";
+            editar_BusController ctrl = loader.getController();
+            ctrl.setCiudadUsuario(currentUser);
+            ctrl.setBus((VehiculoVista) seleccionado);
+            savedFlag = ctrl::isSaved;
+            recargarTabla = () -> {
+                var lista = new com.mycompany.terminalbusesBLL.VehiculoVistaService()
+                        .obtenerVehiculosPorUsuario(currentUser);
+                tblBuses.setItems(FXCollections.observableArrayList(lista));
+                tblBuses.refresh();
+            };
         } else if (selected == tabConductores) {
-            seleccionado = tblConductores.getSelectionModel().getSelectedItem();
-            if (seleccionado == null) { warn("Seleccione un conductor primero."); return; }
-            fxml = "/com/mycompany/terminalbusesfx/editar_Conductor.fxml";
-            titulo = "Editar Conductor";
+            editar_ConductorController ctrl = loader.getController();
+            ctrl.setCiudadUsuario(currentUser);
+            ctrl.setConductor((ConductorVista) seleccionado);
+            savedFlag = ctrl::isSaved;
+            recargarTabla = () -> {
+                var lista = new com.mycompany.terminalbusesBLL.ConductorVistaService()
+                        .obtenerConductoresPorUsuario(currentUser);
+                tblConductores.setItems(FXCollections.observableArrayList(lista));
+                tblConductores.refresh();
+            };
         } else if (selected == tabPasajeros) {
-            seleccionado = tblPasajeros.getSelectionModel().getSelectedItem();
-            if (seleccionado == null) { warn("Seleccione un pasajero primero."); return; }
-            fxml = "/com/mycompany/terminalbusesfx/editar_Pasajero.fxml";
-            titulo = "Editar Pasajero";
+            editar_PasajeroController ctrl = loader.getController();
+            ctrl.setCiudadUsuario(currentUser);
+            ctrl.setPasajero((PasajeroVista) seleccionado);
+            savedFlag = ctrl::isSaved;
+            recargarTabla = () -> {
+                var lista = new com.mycompany.terminalbusesBLL.PasajeroVistaService()
+                        .obtenerPasajerosPorUsuario();
+                tblPasajeros.setItems(FXCollections.observableArrayList(lista));
+                tblPasajeros.refresh();
+            };
         }
 
-        if (fxml == null) {
-            System.err.println("No se encontró un FXML para esta pestaña");
-            return;
+        Stage st = new Stage();
+        st.setTitle(titulo);
+        st.initOwner(((Node) e.getSource()).getScene().getWindow());
+        st.initModality(Modality.APPLICATION_MODAL);
+        st.setScene(new Scene(root));
+        st.showAndWait();
+
+        // 🔄 Recargar si se guardó
+        if (savedFlag.getAsBoolean()) {
+            recargarTabla.run();
         }
 
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
-            Parent root = loader.load();
-
-            if (selected == tabViajes) {
-                editar_ViajeController ctrl = loader.getController();
-                ctrl.setCiudadUsuario(currentUser);
-                ctrl.setViaje((ViajeVista) seleccionado);
-            } else if (selected == tabRutas) {
-                editar_RutaController ctrl = loader.getController();
-                ctrl.setCiudadUsuario(currentUser);
-                ctrl.setRuta((RutaVista) seleccionado);
-            } else if (selected == tabBoletos) {
-                editar_BoletoController ctrl = loader.getController();
-                ctrl.setCiudadUsuario(currentUser);
-                ctrl.setBoleto((BoletoVista) seleccionado);
-            } else if (selected == tabBuses) {
-                editar_BusController ctrl = loader.getController();
-                ctrl.setCiudadUsuario(currentUser);
-                ctrl.setBus((VehiculoVista) seleccionado);
-            } else if (selected == tabConductores) {
-                editar_ConductorController ctrl = loader.getController();
-                ctrl.setCiudadUsuario(currentUser);
-                ctrl.setConductor((ConductorVista) seleccionado);
-            } else if (selected == tabPasajeros) {
-                editar_PasajeroController ctrl = loader.getController();
-                ctrl.setCiudadUsuario(currentUser);
-                ctrl.setPasajero((PasajeroVista) seleccionado);
-            }
-
-            Stage st = new Stage();
-            st.setTitle(titulo);
-            st.initOwner(((Node) e.getSource()).getScene().getWindow());
-            st.initModality(Modality.APPLICATION_MODAL);
-            st.setScene(new Scene(root));
-            st.showAndWait();
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "No se pudo cargar el formulario de edición:\n" + ex.getMessage()).showAndWait();
-        }
+    } catch (IOException ex) {
+        ex.printStackTrace();
+        new Alert(Alert.AlertType.ERROR,
+                "No se pudo cargar el formulario de edición:\n" + ex.getMessage()).showAndWait();
     }
+}
+
 
     @FXML
     private void handleBorrar(ActionEvent event) {
