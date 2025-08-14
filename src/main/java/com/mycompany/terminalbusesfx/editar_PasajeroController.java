@@ -122,8 +122,16 @@ public class editar_PasajeroController implements Initializable {
         ((Stage)((Node)e.getSource()).getScene().getWindow()).close();
     }
 
-    public void setCiudadUsuario(String currentUser) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setCiudadUsuario'");
-    }
+private String ciudadUsuario;
+
+// Setter que te llama el padre (DetalleViajeFINALController)
+public void setCiudadUsuario(String ciudad) {
+    this.ciudadUsuario = (ciudad == null ? "" : ciudad.trim());
+    // Si necesitas refrescar combos/valores dependientes de la ciudad, hazlo aquí.
+}
+
+// (opcional) Getter si lo usas en otro lado
+public String getCiudadUsuario() { 
+    return ciudadUsuario; 
+}
 }

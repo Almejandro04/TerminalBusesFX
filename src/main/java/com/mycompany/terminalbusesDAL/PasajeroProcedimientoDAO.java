@@ -8,7 +8,7 @@ public class PasajeroProcedimientoDAO {
 
     /** Inserta un pasajero */
     public boolean insertarPasajero(PasajeroVista p) {
-        String sql = "{CALL dbo.InsertarPasajero(?, ?, ?, ?, ?, ?)}";
+        String sql = "{CALL [VLADIMIRJON].[Terminal_Quito].dbo.InsertarPasajero(?, ?, ?, ?, ?)}";
         try (Connection cn = ConexionBD.conectar();
              CallableStatement cs = cn.prepareCall(sql)) {
 
@@ -17,7 +17,7 @@ public class PasajeroProcedimientoDAO {
             cs.setString(3, p.getApellidoPasajero());
             cs.setString(4, p.getTelefonoPasajero());
             cs.setString(5, p.getCorreoPasajero());
-            cs.setNull(6, java.sql.Types.VARCHAR); // rowguid → lo genera el SP si es null
+            //cs.setNull(6, java.sql.Types.VARCHAR); // rowguid → lo genera el SP si es null
 
             cs.execute();
             return true;
@@ -29,7 +29,7 @@ public class PasajeroProcedimientoDAO {
 
     /** Actualiza un pasajero existente */
     public boolean actualizarPasajero(PasajeroVista p) {
-        String sql = "{CALL dbo.ActualizarPasajero(?, ?, ?, ?, ?)}";
+        String sql = "{CALL [VLADIMIRJON].[Terminal_Quito].dbo.ActualizarPasajero(?, ?, ?, ?, ?)}";
         try (Connection cn = ConexionBD.conectar();
              CallableStatement cs = cn.prepareCall(sql)) {
 
@@ -49,7 +49,7 @@ public class PasajeroProcedimientoDAO {
 
     /** Elimina un pasajero por cédula */
     public boolean eliminarPasajero(String cedulaPasajero) {
-        String sql = "{CALL dbo.EliminarPasajero(?)}";
+        String sql = "{CALL [VLADIMIRJON].[Terminal_Quito].dbo.EliminarPasajero(?)}";
         try (Connection cn = ConexionBD.conectar();
              CallableStatement cs = cn.prepareCall(sql)) {
 

@@ -12,7 +12,7 @@ public class TerminalVistaDAO {
     public List<TerminalVista> obtenerTodosLosTerminales() {
         List<TerminalVista> lista = new ArrayList<>();
 
-        String sql = "SELECT * FROM [VLADIMIRJON].[Terminal_Quito].dbo.Terminal_Vista";
+        String sql = "SELECT * FROM [VLADIMIRJON].[Terminal_Quito].dbo.Terminal";
 
         try (Connection conn = ConexionBD.conectar();
              PreparedStatement ps = conn.prepareStatement(sql);

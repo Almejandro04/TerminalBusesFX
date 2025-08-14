@@ -212,9 +212,9 @@ public class DetalleViajeFINALController implements Initializable {
         boolean isConductores = newTab == tabConductores;
         boolean isPasajeros   = newTab == tabPasajeros;
 
-        btnNuevo.setVisible(isViajes || isRutas || isBoletos || isBuses || isConductores);
-        btnEditar.setVisible(isViajes || isConductores || isRutas || isBoletos || isBuses);
-        btnBorrar.setVisible(isViajes || isConductores || isRutas || isBoletos || isBuses);
+        btnNuevo.setVisible(isViajes || isRutas || isBoletos || isBuses || isConductores || isPasajeros);
+        btnEditar.setVisible(isViajes || isConductores || isRutas || isBoletos || isBuses || isPasajeros);
+        btnBorrar.setVisible(isViajes || isConductores || isRutas || isBoletos || isBuses || isPasajeros);
         btnVer.setVisible(isViajes);
 
         if (isTerminal) {
