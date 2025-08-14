@@ -83,6 +83,14 @@ public class editar_BoletoController implements Initializable {
             String s = c.getControlNewText();
             return s.matches("\\d{0,3}") ? c : null;
         }));
+        if (cbViaje != null) {
+    cbViaje.setMouseTransparent(true);
+    cbViaje.setFocusTraversable(false);
+}
+if (cbPasajero != null) {
+    cbPasajero.setMouseTransparent(true);
+    cbPasajero.setFocusTraversable(false);
+}
     }
 
     private void configurarRenderCombos() {

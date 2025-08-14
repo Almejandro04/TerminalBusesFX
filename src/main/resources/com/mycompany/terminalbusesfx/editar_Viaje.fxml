@@ -79,7 +79,7 @@
                   <Font name="System Bold Italic" size="12.0" />
                </font>
             </Label>
-            <TextField fx:id="tfPrecio1" GridPane.columnIndex="1" />
+            <TextField fx:id="tfCodigo" GridPane.columnIndex="1" />
          </children>
       </GridPane>
       <HBox prefHeight="28.0" prefWidth="579.0">
