@@ -437,8 +437,7 @@ CREATE OR ALTER PROCEDURE dbo.InsertarPasajero
   @nombre_pasajero VARCHAR(100),
   @apellido_pasajero VARCHAR(100),
   @telefono_pasajero VARCHAR(20) = NULL,
-  @correo_pasajero  VARCHAR(100) = NULL,
-  @rowguid UNIQUEIDENTIFIER = NULL
+  @correo_pasajero  VARCHAR(100) = NULL
 AS
 BEGIN
   SET NOCOUNT ON; SET XACT_ABORT ON;
@@ -449,12 +448,12 @@ BEGIN
   IF LEN(@cedula_pasajero) = 0 OR @cedula_pasajero IS NULL
      THROW 50040, 'cedula_pasajero es requerida', 1;
 
-  INSERT INTO [VLADIMIRJON].Terminal_Quito.dbo.Pasajero_Vista
+  INSERT INTO [VLADIMIRJON].Terminal_Quito.dbo.PASAJERO
     (cedula_pasajero, nombre_pasajero, apellido_pasajero,
-     telefono_pasajero, correo_pasajero, rowguid)
+     telefono_pasajero, correo_pasajero)
   VALUES
     (@cedula_pasajero, @nombre_pasajero, @apellido_pasajero,
-     @telefono_pasajero, @correo_pasajero, COALESCE(@rowguid, NEWID()));
+     @telefono_pasajero, @correo_pasajero);
 END
 GO
 
@@ -482,7 +481,7 @@ BEGIN
            apellido_pasajero = COALESCE(@apellido_pasajero, P.apellido_pasajero),
            telefono_pasajero = COALESCE(@telefono_pasajero, P.telefono_pasajero),
            correo_pasajero   = COALESCE(@correo_pasajero,   P.correo_pasajero)
-      FROM [VLADIMIRJON].Terminal_Quito.dbo.Pasajero_Vista AS P
+      FROM [VLADIMIRJON].Terminal_Quito.dbo.PASAJERO AS P
      WHERE P.cedula_pasajero = @cedula_pasajero;
 
     IF @@ROWCOUNT = 0
@@ -519,7 +518,7 @@ BEGIN
      WHERE cedula_pasajero = @cedula_pasajero;
 
     -- Eliminar pasajero
-    DELETE FROM [VLADIMIRJON].Terminal_Quito.dbo.Pasajero_Vista
+    DELETE FROM [VLADIMIRJON].Terminal_Quito.dbo.PASAJERO
      WHERE cedula_pasajero = @cedula_pasajero;
 
     IF @@ROWCOUNT = 0
