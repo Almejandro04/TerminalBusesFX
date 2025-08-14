@@ -4,13 +4,6 @@ use Terminal_Ibarra
 
 
 -- Vertical (solo este fragmento en Ibarra)
-CREATE TABLE dbo.ConductorTerminal_2 (
-  cod_conductor INT PRIMARY KEY,
-  cod_terminal  INT NOT NULL,
-  cedula_conductor VARCHAR(15) NOT NULL,
-  CONSTRAINT FK_CT2_Terminal FOREIGN KEY (cod_terminal) REFERENCES dbo.TERMINAL(cod_terminal)
-);
-
 -- Horizontal primaria (PK incluye cod_terminal)
 CREATE TABLE dbo.Ruta_2 (
   cod_terminal    INT         NOT NULL,
@@ -35,25 +28,6 @@ CREATE TABLE dbo.Bus_2 (
 );
 
 
--- Horizontal derivada (a�adir cod_terminal y ponerlo en la PK)
-CREATE TABLE dbo.Viaje_2 (
-  cod_terminal   INT          NOT NULL,
-  cod_viaje      INT          NOT NULL,
-  placa          VARCHAR(10)  NOT NULL,
-  cod_ruta       INT          NOT NULL,
-  cod_conductor  INT          NOT NULL,
-  fecha_viaje    DATE         NOT NULL,
-  hora_viaje     TIME(0)      NOT NULL,
-  CONSTRAINT PK_Viaje_2 PRIMARY KEY (cod_terminal, cod_viaje),
-  CONSTRAINT CK_Viaje_2 CHECK (cod_terminal = 2),
-  CONSTRAINT FK_V2_Bus  FOREIGN KEY (cod_terminal, placa)
-    REFERENCES dbo.Bus_2 (cod_terminal, placa),
-  CONSTRAINT FK_V2_Ruta FOREIGN KEY (cod_terminal, cod_ruta)
-    REFERENCES dbo.Ruta_2 (cod_terminal, cod_ruta),
-  CONSTRAINT FK_V2_Cond FOREIGN KEY (cod_conductor)
-    REFERENCES dbo.ConductorTerminal_2 (cod_conductor)
-);
-
 
 CREATE TABLE dbo.Boleto_2 (
   cod_terminal     INT          NOT NULL,
@@ -68,3 +42,46 @@ CREATE TABLE dbo.Boleto_2 (
     REFERENCES dbo.PASAJERO(cedula_pasajero)
   -- Opcional: UNIQUE (cod_terminal, cod_viaje, num_asiento)
 );
+
+-- IBARRA
+CREATE TABLE dbo.ConductorTerminal_2 (
+  cod_terminal       INT          NOT NULL,
+  cod_conductor      INT          NOT NULL,
+  cedula_conductor   VARCHAR(15)  NOT NULL,
+  CONSTRAINT CK_CT2_cod_terminal CHECK (cod_terminal = 2),
+  CONSTRAINT PK_CT2 PRIMARY KEY (cod_terminal, cod_conductor),
+  CONSTRAINT FK_CT2_Terminal FOREIGN KEY (cod_terminal)
+    REFERENCES dbo.TERMINAL(cod_terminal)
+);
+GO
+
+CREATE TABLE dbo.Viaje_2 ( 
+  cod_terminal   INT         NOT NULL,
+  cod_viaje      INT         NOT NULL,  
+  placa          VARCHAR(10) NOT NULL,
+  cod_ruta       INT         NOT NULL,
+  cod_conductor  INT         NOT NULL,
+  fecha_viaje    DATE        NOT NULL,
+  hora_viaje     TIME(0)     NOT NULL,
+
+  CONSTRAINT PK_Viaje_2 PRIMARY KEY (cod_terminal, cod_viaje),
+  CONSTRAINT CK_Viaje_2 CHECK (cod_terminal = 2),
+
+  CONSTRAINT FK_V2_Bus
+    FOREIGN KEY (cod_terminal, placa)
+    REFERENCES dbo.Bus_2 (cod_terminal, placa),
+
+  CONSTRAINT FK_V2_Ruta
+    FOREIGN KEY (cod_terminal, cod_ruta)
+    REFERENCES dbo.Ruta_2 (cod_terminal, cod_ruta),
+
+  -- Referencia compuesta a la PK (cod_terminal, cod_conductor)
+  CONSTRAINT FK_V2_Cond
+    FOREIGN KEY (cod_terminal, cod_conductor)
+    REFERENCES dbo.ConductorTerminal_2 (cod_terminal, cod_conductor)
+);
+GO
+
+-- Índice recomendado para la FK
+CREATE INDEX IX_V2_terminal_conductor ON dbo.Viaje_2(cod_terminal, cod_conductor);
+GO
